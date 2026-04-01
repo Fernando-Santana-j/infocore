@@ -6,14 +6,22 @@ const session = require('express-session')
 const path = require('path');
 const multer = require('multer')
 const cookieParser = require("cookie-parser");
-
-const config = require('./config.json');
+const config = require('./config/config.json');
 
 //TODO------------Configs--------------
 
 const app = express();
 
-app.use(session(webConfig.session));
+app.use(session({
+    "session": {
+        "secret": process.env.SECRET,
+        "resave": false,
+        "saveUninitialized": true,
+        "cookie": {
+            "maxAge": 3600000
+        }
+    },
+}));
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,13 +65,10 @@ app.get('/', (req, res) => {
 });
 
 
-
-
-
-app.listen(webConfig.port, () => {
+app.listen(config.port || 3131, () => {
     const dataHora = new Date();
     const formatado = d => ('0' + d).slice(-2);
     const dataHoraFormatada = `${formatado(dataHora.getDate())}/${formatado(dataHora.getMonth() + 1)}/${dataHora.getFullYear()} ${formatado(dataHora.getHours())}:${formatado(dataHora.getMinutes())}:${formatado(dataHora.getSeconds())}`;
-    console.log(`${dataHoraFormatada} [WEB] Servidor rodando na porta ${webConfig.port}`);
+    console.log(`${dataHoraFormatada} [WEB] Servidor rodando na porta ${config.port}`);
 });
 
