@@ -13,14 +13,12 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(session({
-    session: {
-        secret: process.env.SECRET || 'infocore-fajg3bi2bt3fi3nt2fajbf2',
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 3600000
-        }
-    },
+    secret: process.env.SECRET || 'infocore-fajg3bi2bt3fi3nt2fajbf2',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 3600000
+    }
 }));
 app.use(cookieParser());
 
