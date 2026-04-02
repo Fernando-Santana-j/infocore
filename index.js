@@ -6,7 +6,7 @@ const session = require('express-session')
 const path = require('path');
 const multer = require('multer')
 const cookieParser = require("cookie-parser");
-const config = require('./config/config.json');
+// const config = require('./config/config.json');
 
 //TODO------------Configs--------------
 
@@ -65,10 +65,10 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(config.port || 3131, () => {
+app.listen(3131, () => {
     const dataHora = new Date();
     const formatado = d => ('0' + d).slice(-2);
     const dataHoraFormatada = `${formatado(dataHora.getDate())}/${formatado(dataHora.getMonth() + 1)}/${dataHora.getFullYear()} ${formatado(dataHora.getHours())}:${formatado(dataHora.getMinutes())}:${formatado(dataHora.getSeconds())}`;
-    console.log(`${dataHoraFormatada} [WEB] Servidor rodando na porta ${config.port}`);
+    console.log(`${dataHoraFormatada} [WEB] Servidor rodando na porta 3131`);
 });
 
