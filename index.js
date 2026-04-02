@@ -14,7 +14,7 @@ const app = express();
 
 app.use(session({
     session: {
-        secret: process.env.SECRET ,
+        secret: process.env.SECRET || 'infocore-fajg3bi2bt3fi3nt2fajbf2',
         resave: false,
         saveUninitialized: true,
         cookie: {
