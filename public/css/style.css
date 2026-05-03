@@ -3,12 +3,12 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(24, 26, 27, 0.88);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     /* padding: 1.2rem 0; */
     z-index: 1000;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     transition: all 0.3s ease;
 }
 
@@ -23,7 +23,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 3rem;
+    padding: 0.5em 3rem;
 }
 
 .logo {
@@ -59,7 +59,7 @@ nav {
 
 .nav-cta {
     background: var(--primary-purple);
-    color: var(--white) !important;
+    color: #f5f7f8 !important;
     padding: 0.6rem 1.5rem;
     border-radius: 8px;
     transition: all 0.2s ease;
@@ -155,7 +155,7 @@ nav {
 
 .btn-primary {
     background: var(--primary-purple);
-    color: var(--white);
+    color: #f5f7f8;
     box-shadow: 0 4px 16px rgba(142, 68, 173, 0.3);
 }
 
@@ -167,7 +167,7 @@ nav {
 .btn-secondary {
     background: transparent;
     color: var(--text-dark);
-    border: 2px solid #e5e5e7;
+    border: 2px solid rgba(255, 255, 255, 0.16);
 }
 
 .btn-secondary:hover {
@@ -196,7 +196,7 @@ nav {
 
 .hero-floating-card {
     position: absolute;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(29, 32, 33, 0.95);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
@@ -305,7 +305,7 @@ section {
     padding: 2.5rem;
     border-radius: 20px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .service-card:hover {
@@ -449,7 +449,7 @@ section {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     transition: all 0.3s ease;
 }
 
@@ -536,7 +536,7 @@ section {
     background: var(--white);
     border-radius: 16px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .contact-item:hover {
@@ -572,7 +572,7 @@ section {
     background: var(--white);
     padding: 3rem;
     border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .form-group {
@@ -591,7 +591,7 @@ section {
 .form-group textarea {
     width: 100%;
     padding: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 12px;
     font-family: 'Inter', sans-serif;
     transition: all 0.3s ease;
@@ -604,7 +604,7 @@ section {
     outline: none;
     border-color: var(--primary-purple);
     box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
-    background: var(--white);
+    background: #1d2021;
 }
 
 .form-group textarea {
@@ -632,8 +632,8 @@ section {
 }
 
 footer {
-    background: var(--text-dark);
-    color: var(--white);
+    background: #181a1b;
+    color: #f5f7f8;
     padding: 4rem 3rem 2rem;
 }
 
@@ -663,7 +663,7 @@ footer {
 }
 
 .footer-section a:hover {
-    color: var(--white);
+    color: #f5f7f8;
 }
 
 .social-links {
@@ -802,7 +802,7 @@ footer {
         top: 70px;
         left: -100%;
         flex-direction: column;
-        background: var(--white);
+        background: #1d2021;
         width: 100%;
         padding: 2rem;
         transition: left 0.3s ease;
@@ -877,9 +877,9 @@ footer {
 }
 
 #logo-img {
-    width: 2.5em;
-    height: 2.5em;
+    width: 1.5em;
+    height: 1em;
     margin-right: 0.3rem;
     position: relative;
-    top: 2px;
+    top: 1px;
 }

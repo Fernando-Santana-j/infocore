@@ -6,6 +6,7 @@ const session = require('express-session')
 const path = require('path');
 const multer = require('multer')
 const cookieParser = require("cookie-parser");
+const { MercadoPagoConfig, Payment, Point } = require('mercadopago');
 // const config = require('./config/config.json');
 
 //TODO------------Configs--------------
@@ -52,6 +53,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
 
 
 

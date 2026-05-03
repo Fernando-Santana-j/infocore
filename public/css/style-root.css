@@ -8,15 +8,15 @@
     --primary-purple: #8E44AD;
     --medium-purple: #4B2C82;
     --dark-blue: #1A4EB2;
-    --white: #ffffff;
-    --off-white: #fafafa;
-    --light-gray: #f5f5f7;
-    --medium-gray: #86868b;
-    --dark-gray: #1d1d1f;
-    --text-dark: #1d1d1f;
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --white: #1d2021;
+    --off-white: #181a1b;
+    --light-gray: #181a1b;
+    --medium-gray: #a6abb0;
+    --dark-gray: #f2f4f5;
+    --text-dark: #f2f4f5;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
 html {
