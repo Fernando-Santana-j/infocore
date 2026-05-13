@@ -2,14 +2,15 @@
 <html lang="pt-BR">
 <head>
     <%- include('./reusable/head.ejs') %>
+    <%- include('./reusable/seo-jsonld.ejs') %>
     <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="icon" href="/public/img/logo_bg.ico" sizes="any">
     <link rel="shortcut icon" href="/public/img/logo_bg.ico" type="image/x-icon">
-    
 </head>
 <body>
     <header id="header">
         <nav>
-            <a href="/" class="logo" title="InfoCore"><img id="logo-img" src="/public/img/logo_bg.png" alt="InfoCore Logo">InfoCore</a>
+            <a href="/" class="logo" title="InfoCore"><img id="logo-img" src="/public/img/logo_bg.png" alt="InfoCore — logotipo da loja de informática">InfoCore</a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Início</a></li>
                 <li><a href="#servicos">Serviços</a></li>
@@ -21,6 +22,7 @@
         </nav>
     </header>
 
+    <main id="conteudo-principal">
     <section class="hero" id="home">
         <div class="hero-container">
             <div class="hero-content">
@@ -34,7 +36,7 @@
             </div>
             <div class="hero-image">
                 <div class="hero-image-wrapper">
-                    <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/ovb341j7_photo-1756576630180-653cbd594433.jpg" alt="PC Gaming Setup">
+                    <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/ovb341j7_photo-1756576630180-653cbd594433.jpg" alt="Montagem e setup de computador gamer — InfoCore" fetchpriority="high" decoding="async" width="640" height="480">
                 </div>
                 <div class="hero-floating-card card-1">
                     <div class="floating-stat">
@@ -90,7 +92,7 @@
                 </div>
                 <div class="service-card fade-in">
                     <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
-                    <h3>Servico a domicilio</h3>
+                    <h3>Serviço a domicílio</h3>
                     <p>Determinados serviços a domicílio, como instalação de novo roteador, montagem de computador etc.</p>
                 </div>
                 <div class="service-card fade-in">
@@ -106,7 +108,7 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-image fade-in">
-                    <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/8cs0kgj2_pexels-photo-7639370.jpeg" alt="Técnico InfoCore">
+                    <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/8cs0kgj2_pexels-photo-7639370.jpeg" alt="Equipe técnica InfoCore em atendimento de informática" loading="lazy" decoding="async" width="600" height="400">
                 </div>
                 <div class="about-text fade-in">
                     <div class="section-tag">SOBRE NÓS</div>
@@ -145,7 +147,7 @@
                 <div class="work-grid">
                     <div class="work-card fade-in">
                         <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1587202372583-49330a15584d?w=600" alt="Conserto de PCs">
+                            <img src="https://images.unsplash.com/photo-1587202372583-49330a15584d?w=600" alt="Conserto e manutenção de computadores desktop" loading="lazy" decoding="async" width="600" height="400">
                             <div class="work-overlay">
                                 <span class="work-badge">Conserto</span>
                             </div>
@@ -157,7 +159,7 @@
                     </div>
                     <div class="work-card fade-in">
                         <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?w=600" alt="Conserto de Notebooks">
+                            <img src="https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?w=600" alt="Conserto de notebooks e laptops" loading="lazy" decoding="async" width="600" height="400">
                             <div class="work-overlay">
                                 <span class="work-badge">Conserto</span>
                             </div>
@@ -169,7 +171,7 @@
                     </div>
                     <div class="work-card fade-in">
                         <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600" alt="Conserto de Celulares">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600" alt="Conserto de smartphones e celulares" loading="lazy" decoding="async" width="600" height="400">
                             <div class="work-overlay">
                                 <span class="work-badge">Conserto</span>
                             </div>
@@ -187,7 +189,7 @@
                 <div class="work-grid">
                     <div class="work-card fade-in">
                         <div class="work-image">
-                            <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/ovb341j7_photo-1756576630180-653cbd594433.jpg" alt="Peças de Computador">
+                            <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/ovb341j7_photo-1756576630180-653cbd594433.jpg" alt="Venda de peças para computador" loading="lazy" decoding="async" width="600" height="400">
                             <div class="work-overlay">
                                 <span class="work-badge">Venda</span>
                             </div>
@@ -199,7 +201,7 @@
                     </div>
                     <div class="work-card fade-in">
                         <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=600" alt="Acessórios">
+                            <img src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=600" alt="Acessórios e periféricos de informática" loading="lazy" decoding="async" width="600" height="400">
                             <div class="work-overlay">
                                 <span class="work-badge">Venda</span>
                             </div>
@@ -211,7 +213,7 @@
                     </div>
                     <div class="work-card fade-in">
                         <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600" alt="Tecnologia">
+                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600" alt="Produtos de tecnologia à venda" loading="lazy" decoding="async" width="600" height="400">
                             <div class="work-overlay">
                                 <span class="work-badge">Venda</span>
                             </div>
@@ -301,6 +303,7 @@
             </div>
         </div>
     </section>
+    </main>
 
     <footer>
         <div class="footer-content">
@@ -333,11 +336,11 @@
                 <p>📍 PC Abel Jaco dos Santos, 889 - Simão Dias/SE</p>
                 <p>📞 (79) 99134-3921</p>
                 <p>✉️ contato@infocoretech.com.br</p>
-                <p>⏰ Seg-Sab: 9h-18h</p>
+                <p>⏰ Seg–Sáb: 8:00h – 18:30h</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 InfoCore Informática. Todos os direitos reservados.</p>
+            <p>&copy; 2026 InfoCore Informática. Todos os direitos reservados.</p>
         </div>
     </footer>
 

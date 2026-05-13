@@ -1,0 +1,18 @@
+{
+  "name": "InfoCore Informática",
+  "short_name": "InfoCore",
+  "description": "Manutenção, montagem de PCs e vendas de informática em Simão Dias/SE.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#1d2021",
+  "theme_color": "#8E44AD",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/public/img/logo_bg.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
