@@ -1,348 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <%- include('./reusable/head.ejs') %>
-    <%- include('./reusable/seo-jsonld.ejs') %>
-    <link rel="stylesheet" href="/public/css/style.css">
-    <link rel="icon" href="/public/img/logo_bg.ico" sizes="any">
-    <link rel="shortcut icon" href="/public/img/logo_bg.ico" type="image/x-icon">
-</head>
+<head><%- include('./reusable/head.ejs') %><%- include('./reusable/seo-jsonld.ejs') %></head>
 <body>
-    <header id="header">
-        <nav>
-            <a href="/" class="logo" title="InfoCore"><img id="logo-img" src="/public/img/logo_bg.png" alt="InfoCore — logotipo da loja de informática">InfoCore</a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Início</a></li>
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#trabalhos">Nossos Trabalhos</a></li>
-                <li><a href="#contato" class="nav-cta">Contato</a></li>
-            </ul>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        </nav>
-    </header>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <svg class="svg-sprite" aria-hidden="true"><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol><symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.45L3 20.5l1.55-5.25A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.3 8.1c.3 3.5 2 5.2 5.5 5.6"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2"/></symbol><symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4.5 4.5 0 0 0-5.5 5.5l-6.3 6.3a2.1 2.1 0 0 0 3 3l6.3-6.3a4.5 4.5 0 0 0 5.5-5.5l-2.6 2.6-3-3Z"/></symbol><symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3M9 9h6v6H9z"/></symbol><symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M2 20h20"/></symbol><symbol id="i-drive" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 15h.01M11 15h6"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v5c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6Z"/><path d="m8.5 12 2 2 5-5"/></symbol></svg>
 
-    <main id="conteudo-principal">
-    <section class="hero" id="home">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-badge">🚀 Tecnologia de Ponta</div>
-                <h1>Sua <span class="highlight">Solução</span> em Informática</h1>
-                <p class="subtitle">Especialistas em manutenção, vendas e montagem de computadores. Atendimento de qualidade e garantia total em todos os serviços.</p>
-                <div class="cta-buttons">
-                    <a href="#contato" class="btn btn-primary">Solicitar Orçamento →</a>
-                    <a href="#servicos" class="btn btn-secondary">Nossos Serviços</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="hero-image-wrapper">
-                    <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/ovb341j7_photo-1756576630180-653cbd594433.jpg" alt="Montagem e setup de computador gamer — InfoCore" fetchpriority="high" decoding="async" width="640" height="480">
-                </div>
-                <div class="hero-floating-card card-1">
-                    <div class="floating-stat">
-                        <div class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles-icon lucide-sparkles"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></svg></div>
-                        <div class="stat-text">
-                            <h4>100%</h4>
-                            <p>Satisfação</p>
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
+  <header class="site-header" id="header">
+    <nav class="nav container" aria-label="Navegação principal">
+      <a class="brand" href="#inicio" aria-label="InfoCore, início"><img src="/public/img/brand-header.webp" width="180" height="72" alt="InfoCore"></a>
+      <button class="menu-toggle" type="button" aria-controls="nav-menu" aria-expanded="false"><span></span><span></span><span></span><span class="sr-only">Abrir menu</span></button>
+      <div class="nav-menu" id="nav-menu">
+        <a href="#servicos" data-nav="servicos">Serviços</a><a href="#processo" data-nav="processo">Como funciona</a><a href="#trabalhos" data-nav="trabalhos">Trabalhos</a><a href="#faq" data-nav="faq">Dúvidas</a><a href="#contato" data-nav="contato">Contato</a>
+        <a class="button button-small button-whatsapp js-whatsapp" href="#" data-section="header" data-label="falar_no_whatsapp"><svg><use href="#i-whatsapp"/></svg> Falar no WhatsApp</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio" data-section="hero">
+      <div class="hero-grid" aria-hidden="true"></div><div class="hero-orb hero-orb-a" aria-hidden="true"></div><div class="hero-orb hero-orb-b" aria-hidden="true"></div>
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <div class="eyebrow reveal"><span class="pulse"></span> Assistência técnica em Simão Dias · SE</div>
+          <h1 class="reveal">Seu equipamento,<br><span>de volta ao ritmo.</span></h1>
+          <p class="hero-lead reveal">Manutenção de computadores e notebooks, upgrades e montagem de PCs com diagnóstico claro e atendimento direto.</p>
+          <div class="hero-actions reveal"><a class="button button-primary js-whatsapp" href="#" data-section="hero" data-label="solicitar_orcamento"><svg><use href="#i-whatsapp"/></svg> Solicitar orçamento</a><a class="button button-ghost tracked-link" href="#servicos" data-event="hero_cta_click" data-label="ver_servicos">Ver serviços <svg><use href="#i-arrow"/></svg></a></div>
+          <ul class="trust-list reveal"><li><svg><use href="#i-check"/></svg> Atendimento local</li><li><svg><use href="#i-check"/></svg> Orçamento antes do serviço</li><li><svg><use href="#i-check"/></svg> Contato sem burocracia</li></ul>
         </div>
+        <div class="diagnostic-shell reveal" id="diagnostic" aria-label="Assistente visual para conhecer e melhorar seu dispositivo">
+          <div class="diagnostic-top"><span><i></i> INFOCORE / CHECK-UP DIGITAL</span><span class="diag-time" id="diag-state">ANALISANDO</span></div>
+          <div class="device-stage" id="device-stage">
+            <div class="pc-side" aria-hidden="true">
+              <div class="pc-frame"><div class="rear-fan"></div><div class="board"><span class="socket"></span><span class="ram ram-a"></span><span class="ram ram-b"></span><span class="m2"></span></div><div class="gpu"><i></i><i></i></div><div class="psu">PSU</div><div class="front-fan fan-top"></div><div class="front-fan fan-bottom"></div><div class="scan-line"></div></div>
+            </div>
+            <div class="notebook-device" aria-hidden="true"><div class="notebook-screen"><span></span></div><div class="notebook-base"></div></div>
+            <div class="phone-device" aria-hidden="true"><span></span><i></i></div>
+            <svg class="device-connectors" aria-hidden="true"><g></g></svg>
+            <div class="diag-node node-cpu"><span>PROCESSAMENTO</span><b id="diag-cpu">lendo dispositivo…</b></div>
+            <div class="diag-node node-memory"><span>MEMÓRIA</span><b id="diag-memory">verificando…</b></div>
+            <div class="diag-node node-storage"><span>ARMAZENAMENTO</span><b id="diag-profile">identificando…</b></div>
+            <div class="diag-node node-gpu"><span>VÍDEO / GPU</span><b id="diag-gpu">aguardando…</b></div>
+            <div class="diag-node node-model"><span>MODELO</span><b id="diag-model">detectando…</b></div>
+            <div class="diag-node node-temperature"><span>TEMPERATURA</span><b id="diag-temp">não disponível</b></div>
+          </div>
+          <div class="diagnostic-result"><div><small id="diag-device-label">Seu dispositivo</small><strong id="diag-headline">Preparando um check-up rápido</strong><p id="diag-description">O navegador fará uma leitura básica automaticamente. No Windows, o diagnóstico completo pode identificar CPU, RAM, discos e vídeo.</p></div><div class="diag-actions"><button class="diag-adjust" type="button" id="diag-configure">Diagnosticar este PC</button><a class="button button-primary js-whatsapp" id="diag-cta" href="#" data-section="diagnostic" data-service="diagnostico" data-label="melhorar_pc">Vamos dar um Upgrade? <svg><use href="#i-arrow"/></svg></a></div></div>
+          <div class="diagnostic-disclaimer">Check-up de orientação — não substitui diagnóstico técnico presencial.</div>
+        </div>
+      </div>
+      <dialog class="diagnostic-dialog" id="diagnostic-dialog" aria-labelledby="diagnostic-dialog-title"><div class="powershell-flow"><div class="dialog-head"><div><span class="kicker">Diagnóstico completo · Windows</span><h2 id="diagnostic-dialog-title">Um clique para descobrir o que seu PC precisa.</h2></div><button class="dialog-close" type="button" aria-label="Fechar diagnóstico">×</button></div><p class="powershell-intro">Baixe e abra o iniciador com duplo clique. Ele executa a leitura e envia o resultado. Coleta somente processador, RAM, discos, vídeo e Windows.</p><ol class="powershell-steps"><li><span>01</span><div><strong>Baixe e abra o iniciador</strong><p>É exclusivo desta sessão e expira em 10 minutos.</p><a class="button button-primary" id="diagnostic-download" href="#" download="iniciar-diagnostico-infocore.cmd">Baixar e iniciar diagnóstico <svg><use href="#i-arrow"/></svg></a><button class="script-fallback" id="diagnostic-script" type="button">Ver código que será executado</button></div></li><li><span>02</span><div><strong>Aguarde a leitura</strong><p id="diagnostic-sync-status">Aguardando o diagnóstico do computador…</p><div class="sync-indicator" aria-hidden="true"><i></i><i></i><i></i></div></div></li></ol><button class="button button-ghost" type="button" id="diagnostic-check-now">Verificar novamente</button><small>A sessão fica apenas na memória do servidor e é descartada após expirar.</small></div></dialog>
+      <dialog class="script-dialog" id="script-dialog" aria-labelledby="script-dialog-title"><div><div class="dialog-head"><div><span class="kicker">Código transparente</span><h2 id="script-dialog-title">O que será executado no seu computador</h2></div><button class="dialog-close" type="button" aria-label="Fechar código">×</button></div><pre id="script-code">Carregando código…</pre></div></dialog>
+      <div class="container immediate-proof reveal"><a href="<%= business.mapsUrl %>" target="_blank" rel="noopener" data-track="maps_click" data-section="hero"><svg><use href="#i-pin"/></svg><span><small>Atendimento presencial</small><strong><%= business.address.city %>, <%= business.address.region %></strong></span></a><div><svg><use href="#i-tool"/></svg><span><small>Do diagnóstico ao upgrade</small><strong>Soluções para PC e notebook</strong></span></div><a href="tel:<%= business.phoneE164 %>" data-track="phone_click" data-section="hero"><span class="proof-signal"></span><span><small>Contato direto</small><strong><%= business.phoneDisplay %></strong></span></a></div>
     </section>
 
-    <section id="servicos">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-tag">SERVIÇOS</div>
-                <h2 class="section-title">O Que Fazemos</h2>
-                <p class="section-subtitle">Soluções completas em informática para você e sua empresa</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench-icon lucide-wrench"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg></div>
-                    <h3>Manutenção Preventiva</h3>
-                    <p>Mantenha seu computador funcionando perfeitamente com nossa manutenção preventiva especializada e garantida.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-computer-icon lucide-computer"><rect width="14" height="8" x="5" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 18h2"/><path d="M12 18h6"/></svg></div>
-                    <h3>Montagem de PCs</h3>
-                    <p>Monte o PC dos seus sonhos com componentes de alta qualidade, preços competitivos e garantia total.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-drive-icon lucide-hard-drive"><path d="M10 16h.01"/><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><path d="M21.946 12.013H2.054"/><path d="M6 16h.01"/></svg></div>
-                    <h3>Recuperação de Dados</h3>
-                    <p>Recuperamos seus dados perdidos com tecnologia avançada, segurança total e confidencialidade garantida.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bug-icon lucide-bug"><path d="M12 20v-9"/><path d="M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z"/><path d="M14.12 3.88 16 2"/><path d="M21 21a4 4 0 0 0-3.81-4"/><path d="M21 5a4 4 0 0 1-3.55 3.97"/><path d="M22 13h-4"/><path d="M3 21a4 4 0 0 1 3.81-4"/><path d="M3 5a4 4 0 0 0 3.55 3.97"/><path d="M6 13H2"/><path d="m8 2 1.88 1.88"/><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13"/></svg></div>
-                    <h3>Remoção de Vírus</h3>
-                    <p>Proteja seu sistema contra vírus, malware e ameaças digitais com nossa equipe especializada.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-fading-arrow-up-icon lucide-circle-fading-arrow-up"><path d="M12 2a10 10 0 0 1 7.38 16.75"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/><path d="M2.5 8.875a10 10 0 0 0-.5 3"/><path d="M2.83 16a10 10 0 0 0 2.43 3.4"/><path d="M4.636 5.235a10 10 0 0 1 .891-.857"/><path d="M8.644 21.42a10 10 0 0 0 7.631-.38"/></svg></div>
-                    <h3>Upgrade de Hardware</h3>
-                    <p>Aumente o desempenho do seu computador com upgrades de memória RAM, SSD, placa de vídeo e mais.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></div>
-                    <h3>Vendas de Equipamentos</h3>
-                    <p>Computadores, notebooks, periféricos e acessórios das melhores marcas com preços competitivos.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
-                    <h3>Serviço a domicílio</h3>
-                    <p>Determinados serviços a domicílio, como instalação de novo roteador, montagem de computador etc.</p>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-van-icon lucide-van"><path d="M13 6v5a1 1 0 0 0 1 1h6.102a1 1 0 0 1 .712.298l.898.91a1 1 0 0 1 .288.702V17a1 1 0 0 1-1 1h-3"/><path d="M5 18H3a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2h12c1.1 0 2.1.8 2.4 1.8l1.176 4.2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg></div>
-                    <h3>Entregas</h3>
-                    <p>Entregas de peças e acessórios em sua casa.</p>
-                </div>
-            </div>
+    <section class="section services" id="servicos" data-observe="service_view">
+      <div class="container"><div class="section-heading reveal"><div><span class="kicker">O que resolvemos</span><h2>Assistência que começa pelo problema real.</h2></div><p>Explique o que está acontecendo. A InfoCore orienta o próximo passo e indica a solução adequada ao seu equipamento.</p></div>
+        <div class="service-bento">
+          <% const services = [
+            ['manutencao','Manutenção de computadores','Travamentos, aquecimento, ruídos ou falhas? Investigamos hardware e software antes de propor o serviço.','i-tool','wide'],
+            ['notebook','Manutenção de notebooks','Avaliação de desempenho, teclado, tela, armazenamento e outros componentes.','i-laptop',''],
+            ['upgrade','Upgrade de SSD e memória','Mais agilidade para iniciar, trabalhar e estudar sem trocar de máquina antes da hora.','i-drive','accent'],
+            ['montagem','Montagem de computadores','Configuração pensada para sua necessidade, da escolha das peças à montagem.','i-chip',''],
+            ['seguranca','Limpeza e segurança','Limpeza interna, cuidados térmicos e remoção de ameaças digitais.','i-shield','wide']
+          ]; services.forEach((service, index) => { %>
+          <article class="service-card <%= service[4] %> reveal" data-service="<%= service[0] %>"><div class="service-number">0<%= index + 1 %></div><svg class="service-icon"><use href="#<%= service[3] %>"/></svg><h3><%= service[1] %></h3><p><%= service[2] %></p><a class="service-link js-whatsapp" href="#" data-section="services" data-service="<%= service[0] %>" data-label="solicitar_servico">Quero resolver isso <svg><use href="#i-arrow"/></svg></a></article>
+          <% }) %>
         </div>
+        <div class="visual-services"><div class="visual-services-head reveal"><span>Serviços em detalhe</span><p>Fotos reais poderão substituir as ilustrações sem alterar o layout.</p></div><div class="visual-services-grid">
+          <% serviceShowcase.forEach((item, index) => { %>
+          <article class="visual-service reveal <%= index === 0 ? 'featured' : '' %>" data-service="<%= item.slug %>">
+            <figure class="visual-service-media <%= item.image ? 'has-photo' : 'has-illustration visual-' + item.slug %>">
+              <% if (item.image) { %><img src="<%= item.image %>" alt="<%= item.alt %>" width="800" height="600" loading="lazy" decoding="async"><% } else { %><div class="service-illustration" aria-hidden="true"><span class="illustration-device"></span><i></i><i></i><i></i></div><% } %>
+              <span class="visual-service-tag"><%= item.tag %></span>
+            </figure>
+            <div class="visual-service-copy"><span>0<%= index + 1 %></span><div><h3><%= item.title %></h3><p><%= item.description %></p><a class="service-link js-whatsapp" href="#" data-section="visual_services" data-service="<%= item.slug %>" data-label="solicitar_servico">Quero saber mais <svg><use href="#i-arrow"/></svg></a></div></div>
+          </article>
+          <% }) %>
+        </div></div>
+      </div>
     </section>
 
-    <section id="sobre">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-image fade-in">
-                    <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/8cs0kgj2_pexels-photo-7639370.jpeg" alt="Equipe técnica InfoCore em atendimento de informática" loading="lazy" decoding="async" width="600" height="400">
-                </div>
-                <div class="about-text fade-in">
-                    <div class="section-tag">SOBRE NÓS</div>
-                    <h3>Referência em Soluções de Informática</h3>
-                    <p>Com mais de 10 anos de experiência no mercado, a InfoCore é referência em soluções de informática. Nossa equipe altamente qualificada está pronta para atender suas necessidades com excelência e profissionalismo.</p>
-                    <p>Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos serviços. Sua satisfação é nossa prioridade número um.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">2500+</span>
-                            <span class="stat-label">Clientes Atendidos</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">10+</span>
-                            <span class="stat-label">Anos de Experiência</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">98%</span>
-                            <span class="stat-label">Taxa de Satisfação</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="section why-us" id="diferenciais">
+      <div class="container why-layout"><div class="why-copy reveal"><span class="kicker">Clareza em cada etapa</span><h2>Técnica por dentro.<br>Simples para você.</h2><p>Você não precisa entender de componentes para tomar uma boa decisão. O atendimento traduz o diagnóstico e ajuda a avaliar o que faz sentido para seu uso.</p><a class="text-link js-whatsapp" href="#" data-section="differentials" data-label="tirar_duvida">Tirar uma dúvida no WhatsApp <svg><use href="#i-arrow"/></svg></a></div><div class="feature-stack"><article class="feature reveal"><span>01</span><div><h3>Diagnóstico antes da solução</h3><p>O problema é avaliado antes da indicação de peças ou serviços.</p></div></article><article class="feature reveal"><span>02</span><div><h3>Orçamento compreensível</h3><p>Você recebe contexto para decidir com mais segurança.</p></div></article><article class="feature reveal"><span>03</span><div><h3>Atendimento próximo</h3><p>Contato direto com uma assistência local em Simão Dias.</p></div></article></div></div>
     </section>
 
-    <section id="trabalhos">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-tag">NOSSOS TRABALHOS</div>
-                <h2 class="section-title">Consertos e Vendas</h2>
-                <p class="section-subtitle">Especializados em consertos e venda de produtos de tecnologia</p>
-            </div>
-
-            <div class="work-category fade-in">
-                <h3 class="category-title">🔧 Consertos Especializados</h3>
-                <div class="work-grid">
-                    <div class="work-card fade-in">
-                        <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1587202372583-49330a15584d?w=600" alt="Conserto e manutenção de computadores desktop" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="work-overlay">
-                                <span class="work-badge">Conserto</span>
-                            </div>
-                        </div>
-                        <div class="work-content">
-                            <h4>Computadores</h4>
-                            <p>Manutenção e conserto de PCs desktop com diagnóstico preciso e peças originais</p>
-                        </div>
-                    </div>
-                    <div class="work-card fade-in">
-                        <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?w=600" alt="Conserto de notebooks e laptops" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="work-overlay">
-                                <span class="work-badge">Conserto</span>
-                            </div>
-                        </div>
-                        <div class="work-content">
-                            <h4>Notebooks</h4>
-                            <p>Reparo completo de notebooks: tela, teclado, bateria, HD/SSD e muito mais</p>
-                        </div>
-                    </div>
-                    <div class="work-card fade-in">
-                        <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600" alt="Conserto de smartphones e celulares" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="work-overlay">
-                                <span class="work-badge">Conserto</span>
-                            </div>
-                        </div>
-                        <div class="work-content">
-                            <h4>Celulares</h4>
-                            <p>Conserto de smartphones: troca de tela, bateria, câmera e reparo de placa</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="work-category fade-in">
-                <h3 class="category-title">🛒 Vendas de Produtos</h3>
-                <div class="work-grid">
-                    <div class="work-card fade-in">
-                        <div class="work-image">
-                            <img src="https://customer-assets.emergentagent.com/job_c7081303-f0c2-4be3-9eb4-424a6493ab1a/artifacts/ovb341j7_photo-1756576630180-653cbd594433.jpg" alt="Venda de peças para computador" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="work-overlay">
-                                <span class="work-badge">Venda</span>
-                            </div>
-                        </div>
-                        <div class="work-content">
-                            <h4>Peças para Computador</h4>
-                            <p>Processadores, placas de vídeo, memória RAM, SSD, HD e componentes diversos</p>
-                        </div>
-                    </div>
-                    <div class="work-card fade-in">
-                        <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=600" alt="Acessórios e periféricos de informática" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="work-overlay">
-                                <span class="work-badge">Venda</span>
-                            </div>
-                        </div>
-                        <div class="work-content">
-                            <h4>Acessórios</h4>
-                            <p>Mouses, teclados, headsets, webcams, cabos, carregadores e periféricos</p>
-                        </div>
-                    </div>
-                    <div class="work-card fade-in">
-                        <div class="work-image">
-                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600" alt="Produtos de tecnologia à venda" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="work-overlay">
-                                <span class="work-badge">Venda</span>
-                            </div>
-                        </div>
-                        <div class="work-content">
-                            <h4>Tecnologia Variada</h4>
-                            <p>Caixas de som, fones bluetooth, limpeza e gadgets tecnológicos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="section process" id="processo">
+      <div class="container"><div class="section-heading reveal"><div><span class="kicker">Como funciona</span><h2>Do primeiro contato ao equipamento pronto.</h2></div><p>Um fluxo simples para você saber o que acontece em seguida. Prazos e disponibilidade são confirmados no atendimento.</p></div><ol class="process-line"><li class="reveal"><b>01</b><span class="process-dot"></span><h3>Conte o problema</h3><p>Fale pelo WhatsApp e descreva os sintomas do equipamento.</p></li><li class="reveal"><b>02</b><span class="process-dot"></span><h3>Avaliação técnica</h3><p>A InfoCore verifica a causa e as opções de solução.</p></li><li class="reveal"><b>03</b><span class="process-dot"></span><h3>Orçamento</h3><p>Você recebe a proposta e decide antes da execução.</p></li><li class="reveal"><b>04</b><span class="process-dot"></span><h3>Serviço e entrega</h3><p>Após a aprovação, o serviço é realizado e a retirada é combinada.</p></li></ol></div>
     </section>
 
-    <section id="contato">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-tag">CONTATO</div>
-                <h2 class="section-title">Fale Conosco</h2>
-                <p class="section-subtitle">Estamos prontos para atender você da melhor forma</p>
-            </div>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <a href="https://wa.me/5579991343921?text=Ol%C3%A1%21+Vi+o+perfil+no+Instagram+e+gostaria+de+um+or%C3%A7amento" class="contact-whatsapp fade-in" target="_blank" rel="noopener noreferrer">
-                        <span class="contact-whatsapp-icon" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                        </span>
-                        <span class="contact-whatsapp-copy">
-                            <span class="contact-whatsapp-title">Falar pelo WhatsApp</span>
-                            <span class="contact-whatsapp-sub">Orçamento rápido — abre com a mensagem já pronta</span>
-                        </span>
-                        <span class="contact-whatsapp-chevron" aria-hidden="true">→</span>
-                    </a>
-                    <div class="contact-item fade-in">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <h3>Endereço</h3>
-                            <p>PC Abel Jaco dos Santos, 889<br>Centro - Simão Dias/SE<br>CEP: 49480-000</p>
-                        </div>
-                    </div>
-                    <div class="contact-item fade-in">
-                        <div class="contact-icon">📞</div>
-                        <div>
-                            <h3>Telefone</h3>
-                            <p>(79) 99134-3921</p>
-                        </div>
-                    </div>
-                    <div class="contact-item fade-in">
-                        <div class="contact-icon">✉️</div>
-                        <div>
-                            <h3>E-mail</h3>
-                            <p>contato@infocoretech.com.br</p>
-                        </div>
-                    </div>
-                    <div class="contact-item fade-in">
-                        <div class="contact-icon">⏰</div>
-                        <div>
-                            <h3>Horário</h3>
-                            <p>Segunda a Sábado: 8h às 16:30h</p>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="contact-form fade-in">
-                    <div id="successMessage" class="success-message">Mensagem enviada! Entraremos em contato em breve.</div>
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Nome Completo</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">E-mail</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Telefone</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Mensagem</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Enviar Mensagem</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <section class="section work" id="trabalhos" data-observe="portfolio_view">
+      <div class="container"><div class="section-heading reveal"><div><span class="kicker">Por dentro da InfoCore</span><h2>Trabalho real, sem imagens de catálogo.</h2></div><p>A galeria é conectada ao Instagram profissional da InfoCore. Quando a API estiver ativa, publicações e bastidores aparecem aqui automaticamente.</p></div>
+        <div class="instagram-grid" id="instagram-feed" aria-live="polite"><div class="feed-feature reveal"><img src="/public/img/showcase.webp" width="1024" height="864" loading="lazy" decoding="async" alt="Publicação da InfoCore apresentando acessórios de informática"><div><span>Conteúdo da marca</span><h3>Acessórios, peças e assistência em um só lugar.</h3></div></div><div class="feed-fallback reveal"><span class="feed-mark">@</span><h3>Acompanhe os trabalhos recentes</h3><p>Veja publicações, novidades e bastidores diretamente no perfil oficial.</p><a class="button button-ghost" href="<%= business.instagramUrl %>" target="_blank" rel="noopener" data-track="instagram_click" data-section="portfolio">Abrir <%= business.instagramHandle %> <svg><use href="#i-arrow"/></svg></a></div></div>
+      </div>
     </section>
-    </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>InfoCore</h3>
-                <p>Sua loja especializada em informática, vendas e manutenção de computadores com qualidade e garantia.</p>
-                <div class="social-links">
-                    <!-- <a href="https://facebook.com" target="_blank" title="Facebook">📘</a> -->
-                    <a href="https://www.instagram.com/infocore_tech/" target="_blank" title="Instagram">📷</a>
-                    <!-- <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a> -->
-                    <!-- <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a> -->
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Links Rápidos</h3>
-                <a href="#home">Início</a>
-                <a href="#servicos">Serviços</a>
-                <a href="#sobre">Sobre Nós</a>
-                <a href="#trabalhos">Nossos Trabalhos</a>
-            </div>
-            <div class="footer-section">
-                <h3>Serviços</h3>
-                <a href="#servicos">Manutenção Preventiva</a>
-                <a href="#servicos">Montagem de PCs</a>
-                <a href="#servicos">Recuperação de Dados</a>
-                <a href="#servicos">Vendas de Equipamentos</a>
-            </div>
-            <div class="footer-section">
-                <h3>Contato</h3>
-                <p>📍 PC Abel Jaco dos Santos, 889 - Simão Dias/SE</p>
-                <p>📞 (79) 99134-3921</p>
-                <p>✉️ contato@infocoretech.com.br</p>
-                <p>⏰ Seg – Sáb: 8:00h – 18:30h</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 InfoCore Informática. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+    <section class="section reviews" id="avaliacoes">
+      <div class="container reviews-shell reveal"><div class="reviews-intro"><span class="kicker">Avaliações no Google</span><h2>Confiança se constrói com experiências reais.</h2><p id="reviews-summary">As avaliações serão exibidas diretamente pelo Google assim que a integração oficial for configurada.</p><div class="review-actions"><a class="button button-primary" id="reviews-link" href="<%= business.googleReviewsUrl || business.mapsUrl %>" target="_blank" rel="noopener" data-track="google_reviews_click" data-section="reviews">Ver perfil no Google <svg><use href="#i-arrow"/></svg></a><a class="text-link <%= business.googleReviewWriteUrl ? '' : 'is-hidden' %>" id="review-write-link" href="<%= business.googleReviewWriteUrl || '#' %>" target="_blank" rel="noopener">Avaliar a InfoCore</a></div></div><div class="reviews-content" id="reviews-content" aria-live="polite"><div class="review-placeholder"><div class="stars" aria-hidden="true">★★★★★</div><strong>Avaliações verificadas</strong><p>Nenhuma nota ou depoimento é inventado. Os dados desta área vêm da API oficial do Google.</p></div></div></div>
+    </section>
 
-    <script src="/public/js/script.js"></script>
-</body>
-</html>
+    <section class="section products" id="produtos" data-observe="product_view"><div class="container"><div class="section-heading reveal"><div><span class="kicker">Upgrades e soluções</span><h2>Às vezes, uma troca certa muda a máquina inteira.</h2></div><p>Consulte disponibilidade e compatibilidade antes da compra. A recomendação considera o equipamento e seu tipo de uso.</p></div><div class="product-strip"><article class="product reveal" data-product="ssd"><small>Velocidade</small><h3>SSD</h3><p>Inicialização e abertura de programas mais rápidas.</p><a href="#" class="js-whatsapp" data-section="products" data-service="ssd" data-label="tenho_interesse">Consultar compatibilidade</a></article><article class="product reveal" data-product="memoria"><small>Multitarefa</small><h3>Memória RAM</h3><p>Mais fôlego para trabalhar com vários programas.</p><a href="#" class="js-whatsapp" data-section="products" data-service="memoria_ram" data-label="tenho_interesse">Consultar compatibilidade</a></article><article class="product reveal" data-product="componentes"><small>Configuração</small><h3>Peças e periféricos</h3><p>Componentes e acessórios conforme disponibilidade.</p><a href="#" class="js-whatsapp" data-section="products" data-service="pecas_perifericos" data-label="tenho_interesse">Consultar opções</a></article></div></div></section>
+
+    <section class="section faq" id="faq"><div class="container faq-layout"><div class="faq-heading reveal"><span class="kicker">Perguntas frequentes</span><h2>Antes de levar seu equipamento.</h2><p>Algumas respostas dependem do diagnóstico. Quando precisar, fale diretamente com a InfoCore.</p></div><div class="accordion">
+      <% const faqs = [['O orçamento é feito antes do serviço?','A proposta é apresentada para sua decisão antes da execução. Quando o diagnóstico exigir procedimento específico, as condições são informadas no atendimento.'],['Vocês atendem computadores e notebooks?','Sim. A InfoCore trabalha com manutenção, limpeza, upgrades e soluções para computadores e notebooks.'],['Quanto tempo demora o atendimento?','O prazo varia conforme o problema, a disponibilidade de peças e a fila de atendimento. A previsão é informada após a avaliação.'],['Meus arquivos ficam seguros durante a manutenção?','Informe no primeiro contato se há arquivos importantes. Nenhum serviço elimina todos os riscos: mantenha backup sempre que possível e confirme o procedimento antes de autorizar formatação ou intervenção no armazenamento.'],['Posso pedir upgrade de SSD ou memória?','Sim. A compatibilidade precisa ser verificada para indicar o componente adequado ao equipamento.'],['Há atendimento em domicílio ou coleta?','A disponibilidade e o tipo de serviço atendido fora da loja devem ser confirmados diretamente pelo WhatsApp.'],['O serviço tem garantia?','As condições dependem do serviço e das peças utilizadas. Peça os termos aplicáveis junto ao orçamento; esta página não promete uma condição genérica.']]; faqs.forEach((faq,index)=>{ %><details class="faq-item reveal"><summary><span><%= String(index+1).padStart(2,'0') %></span><%= faq[0] %><i></i></summary><div><p><%= faq[1] %></p></div></details><% }) %>
+    </div></div></section>
+
+    <section class="section contact" id="contato"><div class="container"><div class="contact-shell"><div class="contact-copy reveal"><span class="kicker">InfoCore em Simão Dias</span><h2>Conte o que está acontecendo.</h2><p>O caminho mais rápido é o WhatsApp. Se preferir, envie uma mensagem pelo formulário e a InfoCore retorna pelo contato informado.</p><a class="button button-primary js-whatsapp" href="#" data-section="contact" data-label="iniciar_atendimento"><svg><use href="#i-whatsapp"/></svg> Iniciar atendimento</a><div class="contact-details"><a href="<%= business.mapsUrl %>" target="_blank" rel="noopener" data-track="maps_click" data-section="contact"><svg><use href="#i-pin"/></svg><span><small>Endereço</small><strong><%= business.address.street %><br><%= business.address.neighborhood %> · <%= business.address.city %>/<%= business.address.region %></strong></span></a><a href="tel:<%= business.phoneE164 %>" data-track="phone_click" data-section="contact"><svg><use href="#i-whatsapp"/></svg><span><small>Telefone e WhatsApp</small><strong><%= business.phoneDisplay %></strong></span></a></div></div>
+          <form class="contact-form reveal" id="contact-form" novalidate><div class="form-title"><span>Mensagem</span><small>Campos marcados com * são obrigatórios</small></div><input class="honeypot" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"><input type="hidden" name="startedAt" value=""><label>Nome *<input name="name" autocomplete="name" required minlength="2"></label><div class="field-row"><label>E-mail<input type="email" name="email" autocomplete="email"></label><label>Telefone<input type="tel" name="phone" autocomplete="tel" inputmode="tel"></label></div><label>Como podemos ajudar? *<textarea name="message" required minlength="10" maxlength="2000" rows="5" placeholder="Descreva o equipamento e o problema"></textarea></label><p class="form-status" id="form-status" role="status"></p><button class="button button-primary" type="submit">Enviar mensagem <svg><use href="#i-arrow"/></svg></button><small class="form-privacy">Ao enviar, você concorda com o uso dos dados para responder ao contato. <a href="/privacidade">Saiba mais</a>.</small></form>
+        </div></div></section>
+
+    <section class="final-cta" data-observe="cta_view"><div class="container reveal"><span class="kicker">Seu próximo passo</span><h2>Vamos entender o que<br>seu equipamento precisa?</h2><a class="button button-light js-whatsapp" href="#" data-section="final_cta" data-label="solicitar_orcamento">Solicitar orçamento <svg><use href="#i-arrow"/></svg></a></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-grid"><div><img src="/public/img/brand-header.webp" width="180" height="72" alt="InfoCore"><p>Assistência técnica, peças e soluções em informática em Simão Dias, Sergipe.</p></div><div><strong>Navegue</strong><a href="#servicos">Serviços</a><a href="#processo">Como funciona</a><a href="#faq">Dúvidas</a><a href="#contato">Contato</a></div><div><strong>Contato</strong><a href="tel:<%= business.phoneE164 %>" data-track="phone_click" data-section="footer"><%= business.phoneDisplay %></a><a href="mailto:<%= business.email %>" data-track="email_click" data-section="footer"><%= business.email %></a><a href="<%= business.instagramUrl %>" target="_blank" rel="noopener" data-track="instagram_click" data-section="footer"><%= business.instagramHandle %></a></div><div><strong>Endereço</strong><a href="<%= business.mapsUrl %>" target="_blank" rel="noopener" data-track="maps_click" data-section="footer"><%= business.address.street %><br><%= business.address.neighborhood %> · <%= business.address.city %>/<%= business.address.region %></a><small>Consulte o horário antes de se deslocar.</small></div></div><div class="container footer-bottom"><span>© <%= new Date().getFullYear() %> InfoCore. Todos os direitos reservados.</span><div><a href="/privacidade">Privacidade</a><a href="/cookies">Cookies</a><button type="button" id="cookie-settings">Preferências de cookies</button></div></div></footer>
+
+  <a class="mobile-whatsapp js-whatsapp" href="#" data-section="floating_mobile" data-label="whatsapp_flutuante" aria-label="Orçamento: falar com a InfoCore pelo WhatsApp"><svg><use href="#i-whatsapp"/></svg><span>Orçamento</span></a>
+  <section class="consent" id="consent" aria-label="Preferências de cookies" aria-live="polite" hidden><div><strong>Sua privacidade importa.</strong><p>Usamos cookies opcionais para entender a navegação e medir campanhas. Você escolhe o que permitir.</p><div class="consent-settings" hidden><label><input type="checkbox" checked disabled> Necessários</label><label><input type="checkbox" id="consent-analytics"> Analytics</label><label><input type="checkbox" id="consent-marketing"> Marketing</label></div></div><div class="consent-actions"><button type="button" class="button button-ghost" data-consent="reject">Recusar</button><button type="button" class="button button-ghost" data-consent="settings">Configurar</button><button type="button" class="button button-primary" data-consent="accept">Aceitar</button><button type="button" class="button button-primary consent-save" data-consent="save" hidden>Salvar escolhas</button></div></section>
+  <script src="/public/js/analytics.js" defer></script><script src="/public/js/script.js" defer></script>
+</body></html>

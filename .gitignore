@@ -1,4 +1,7 @@
 .env
 node_modules
-config
+config/*
+!config/business.js
 uploads
+test-results/
+playwright-report/
