@@ -28,26 +28,46 @@ Crie ou selecione um Pixel no Gerenciador de Eventos e informe `META_PIXEL_ID`. 
 
 ## Avaliações do Google
 
-A implementação usa a **Places API (New)** oficial, adequada para exibir informações públicas de um local sem scraping:
+A configuração padrão é `GOOGLE_REVIEWS_PROVIDER=embed`. Ela não precisa de chave, projeto no Google Cloud, OAuth ou cartão. O mapa oficial continua incorporado e um sincronizador de melhor esforço abre o painel público de avaliações em um Chromium leve, percorre a lista e grava o resultado em `.cache/google-reviews.json`.
 
-1. No Google Cloud, ative Places API (New) e faturamento.
-2. Restrinja uma API key ao serviço Places API e, quando possível, ao IP do servidor.
-3. Encontre o Place ID oficial da InfoCore e informe `GOOGLE_PLACE_ID`.
-4. Informe a chave em `GOOGLE_PLACES_API_KEY` somente no servidor.
-5. Informe os links públicos em `GOOGLE_REVIEWS_URL` e `GOOGLE_REVIEW_WRITE_URL`.
+A sincronização ocorre 15 segundos após a inicialização e depois a cada 12 horas. Visitantes nunca esperam o Maps: a página e `/api/reviews` leem apenas a última cópia válida. Uma resposta incompleta ou um bloqueio temporário do Google não apaga o conjunto já coletado. `GOOGLE_REVIEWS_PUBLIC_SYNC=0` desativa novas coletas sem apagar o cache. Como esse acesso usa a interface pública não documentada do Maps, ele é necessariamente de melhor esforço; a opção oficial e estável continua sendo a Business Profile API abaixo.
 
-O navegador chama `/api/reviews`; o servidor aplica timeout de 6 segundos, reduz o payload, armazena resultado em memória por 6 horas e oferece cache HTTP. Sem configuração ou em falha, a página mantém um fallback honesto e não mostra nota ou depoimento inventado.
+Os botões externos podem ser ajustados com `GOOGLE_REVIEWS_URL` e `GOOGLE_REVIEW_WRITE_URL`; se ficarem vazios, o primeiro usa a busca pública definida em `config/business.js`.
 
-A Google Business Profile API é indicada quando a empresa precisa gerenciar dados e avaliações da própria conta, mas exige projeto aprovado e OAuth do proprietário. Ela pode substituir o carregador interno no futuro sem alterar o frontend. Não coloque client secret ou refresh token no navegador.
+### Opção avançada: Business Profile API
+
+Caso o projeto obtenha aprovação no futuro, a **Google Business Profile API** pode fornecer os textos das avaliações sem a cobrança por chamada da Places API. Ela só acessa um perfil autorizado pelo proprietário e exige aprovação prévia do projeto pelo Google:
+
+1. Solicite acesso às Business Profile APIs para o projeto da empresa. O Google informa que a análise pode levar até 14 dias.
+2. Após a aprovação, ative `Google My Business API`, `My Business Account Management API` e `My Business Business Information API`.
+3. Crie um cliente OAuth 2.0 do tipo Web e autorize a conta proprietária com o escopo `https://www.googleapis.com/auth/business.manage`.
+4. Informe `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET` e `GOOGLE_OAUTH_REFRESH_TOKEN` somente no servidor.
+5. Altere para `GOOGLE_REVIEWS_PROVIDER=business_profile`.
+6. Informe `GOOGLE_REVIEWS_URL` e `GOOGLE_REVIEW_WRITE_URL` para os botões públicos.
+
+Depois de cadastrar `http://127.0.0.1:3136/oauth2callback` como URI autorizada no cliente OAuth e preencher o client ID/secret, execute `npm run google:connect`. O utilitário abre um callback local, fornece o endereço de autorização e, ao final, mostra o refresh token e os locais disponíveis no próprio terminal.
+
+O backend descobre automaticamente a conta e a localização quando existe apenas uma opção ou quando `GOOGLE_PLACE_ID` corresponde ao local gerenciado. Se houver mais de uma conta ou local e não for possível resolver sem ambiguidade, preencha também `GOOGLE_BUSINESS_ACCOUNT_ID` e `GOOGLE_BUSINESS_LOCATION_ID`.
+
+Nesse modo avançado, o navegador chama `/api/reviews`; o servidor renova o access token, busca as avaliações com `orderBy=updateTime desc`, reduz o payload e mantém cache em memória por 6 horas. O modo antigo da Places API continua disponível somente se `GOOGLE_REVIEWS_PROVIDER=places` for definido explicitamente.
 
 ## Instagram Graph API
 
-1. Converta/conecte o perfil a uma conta profissional elegível e a uma Página do Facebook.
-2. Configure um app Meta com as permissões aplicáveis à leitura da mídia da própria conta.
-3. Obtenha `INSTAGRAM_USER_ID` e um token de longa duração em `INSTAGRAM_ACCESS_TOKEN`.
-4. Planeje a renovação segura do token no servidor.
+1. Converta o perfil em uma conta profissional elegível.
+2. Configure um app Meta com as permissões aplicáveis à leitura da mídia da própria conta, usando Instagram Login ou Facebook Login.
+3. Informe o token de longa duração em `INSTAGRAM_ACCESS_TOKEN`. Para Facebook Login, informe também `INSTAGRAM_USER_ID`; no fluxo Instagram Login, o backend usa `me` automaticamente.
+4. Informe em `META_GRAPH_API_VERSION` a versão habilitada no app Meta (o exemplo usa `v22.0`).
+5. Planeje a renovação segura do token no servidor.
 
-O endpoint `/api/instagram` usa a Graph API, timeout, cache em memória de 1 hora e retorna apenas seis itens. O token nunca aparece no HTML. Sem credenciais, a seção exibe um asset real da marca e link para o perfil, sem imitar um feed.
+O endpoint `/api/instagram` detecta tokens do Instagram Login (`IG...`) e usa `graph.instagram.com`; tokens do Facebook Login (`EAA...`) usam `graph.facebook.com`. A integração aplica timeout, cache em memória de 1 hora e retorna apenas seis itens. O token nunca aparece no HTML. Sem credenciais, a seção exibe um asset real da marca e link para o perfil, sem imitar um feed.
+
+## Catálogo de produtos
+
+A página `/catalogo` lê a coleção `products` do mesmo Firestore usado pelo sistema interno. A API pública `/api/catalog/products` inclui somente produtos ativos e exclui registros com `itemType=service`. Ela envia nome, descrição, categoria, preço, imagem e estado de disponibilidade; custo, SKU, estoque mínimo e demais campos administrativos nunca são expostos.
+
+O servidor mantém uma cópia persistente em `.cache/products.json` e uma escuta em tempo real da coleção. Alterações de preço, estoque, nome ou status entram no catálogo automaticamente, sem aguardar uma visita. O cache faz a página abrir imediatamente e preserva a última versão válida durante lentidão ou indisponibilidade temporária do Firebase. `PRODUCT_CATALOG_SYNC=0` interrompe novas sincronizações sem apagar o cache.
+
+Imagens HTTPS cadastradas no produto são usadas diretamente. Caminhos locais de `uploads` passam pela rota restrita `/catalog-media`; por padrão ela lê `../InfoCore-System/uploads`, ou o diretório definido em `PRODUCT_MEDIA_DIR`. Produtos sem foto recebem uma ilustração visual por categoria, sem usar imagens falsas.
 
 ## Formulário
 

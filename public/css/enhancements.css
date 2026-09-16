@@ -566,6 +566,77 @@
     font-size: .72rem
 }
 
+/* Catálogo unificado: uma única apresentação para cada serviço. */
+.service-catalog {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0
+}
+
+.service-catalog .visual-services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px
+}
+
+.service-catalog .visual-service,
+.service-catalog .visual-service:nth-child(1),
+.service-catalog .visual-service:nth-child(4) {
+    grid-column: auto;
+    display: flex;
+    min-width: 0;
+    flex-direction: column
+}
+
+.service-catalog .visual-service-media,
+.service-catalog .visual-service.featured .visual-service-media {
+    height: 190px
+}
+
+.service-catalog .visual-service-copy {
+    flex: 1;
+    padding: 22px;
+    grid-template-columns: 28px minmax(0, 1fr)
+}
+
+.service-catalog .visual-service-copy>div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column
+}
+
+.service-catalog .visual-service-copy p {
+    flex: 1;
+    line-height: 1.65
+}
+
+.service-catalog .visual-service-copy .service-link {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 7px
+}
+
+@media(max-width:980px) {
+    .service-catalog .visual-services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+}
+
+@media(max-width:640px) {
+    .service-catalog .visual-services-grid {
+        grid-template-columns: minmax(0, 1fr)
+    }
+
+    .service-catalog .visual-service-media,
+    .service-catalog .visual-service.featured .visual-service-media {
+        height: 165px
+    }
+
+    .service-catalog .service-illustration {
+        transform: scale(.82)
+    }
+}
+
 /* Fluxo seguro de diagnóstico do Windows */
 .diagnostic-dialog {
     width: min(680px, calc(100% - 28px));

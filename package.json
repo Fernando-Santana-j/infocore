@@ -18,15 +18,18 @@
     "test": "node --test",
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "google:connect": "node scripts/google-business-connect.js",
     "build": "npm run check && npm test",
-    "check": "node --check index.js && node --check public/js/analytics.js && node --check public/js/script.js",
+    "check": "node --check index.js && node --check ecosystem.config.js && node --check services/google-review-store.js && node --check services/product-catalog.js && node --check services/product-store.js && node --check scripts/google-business-connect.js && node --check public/js/analytics.js && node --check public/js/script.js && node --check public/js/catalog.js",
     "test:e2e": "playwright test"
   },
   "dependencies": {
     "compression": "^1.8.1",
     "dotenv": "^17.3.1",
     "ejs": "^5.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "firebase-admin": "^13.10.0",
+    "playwright": "^1.63.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

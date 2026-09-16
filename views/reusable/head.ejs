@@ -1,3 +1,4 @@
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="<%= pageDescription %>">
@@ -16,7 +17,7 @@
 <title><%= pageTitle %></title>
 <script>document.documentElement.classList.add('js');</script>
 <link rel="manifest" href="/public/site.webmanifest"><link rel="icon" href="/public/img/logo_bg.ico" sizes="any"><link rel="apple-touch-icon" href="/public/img/logo_bg.png">
-<link rel="preload" href="/public/css/style.css" as="style"><link rel="stylesheet" href="/public/css/style.css">
-<link rel="stylesheet" href="/public/css/enhancements.css">
-<link rel="stylesheet" href="/public/css/diagnostic.css">
+<link rel="preload" href="/public/css/style.css?v=<%= assetVersion %>" as="style"><link rel="stylesheet" href="/public/css/style.css?v=<%= assetVersion %>">
+<link rel="stylesheet" href="/public/css/enhancements.css?v=<%= assetVersion %>">
+<link rel="stylesheet" href="/public/css/diagnostic.css?v=<%= assetVersion %>">
 <script>window.__INFOCORE_CONFIG__=<%- JSON.stringify({ analytics, integrations, business: { whatsappNumber: business.whatsappNumber, instagramUrl: business.instagramUrl, googleReviewsUrl: business.googleReviewsUrl, googleReviewWriteUrl: business.googleReviewWriteUrl } }).replace(/</g, '\\u003c') %>;</script>

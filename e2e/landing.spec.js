@@ -3,9 +3,13 @@ const { test, expect } = require('@playwright/test');
 test('landing page is responsive, functional and free of runtime errors', async ({ page }, testInfo) => {
   const errors = [];
   const failed = [];
-  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
-  page.on('pageerror', (error) => errors.push(error.message));
-  page.on('requestfailed', (request) => failed.push(`${request.method()} ${request.url()} ${request.failure()?.errorText}`));
+  const isGoogleEmbedError = (value) => /maps\.gstatic\.com\/maps-api-v3\/embed/i.test(String(value || ''));
+  page.on('console', (message) => { if (message.type() === 'error' && !isGoogleEmbedError(message.location().url)) errors.push(message.text()); });
+  page.on('pageerror', (error) => { if (!isGoogleEmbedError(error.stack)) errors.push(error.message); });
+  page.on('requestfailed', (request) => {
+    if (request.resourceType() === 'media' && request.failure()?.errorText === 'net::ERR_ABORTED') return;
+    failed.push(`${request.method()} ${request.url()} ${request.failure()?.errorText}`);
+  });
   await page.goto('/', { waitUntil: 'networkidle' });
   await expect(page.locator('h1')).toContainText('Seu equipamento');
   await expect(page.locator('.hero-actions .button-primary')).toHaveAttribute('href', /wa\.me\/5579991343921/);
@@ -23,7 +27,7 @@ test('landing page is responsive, functional and free of runtime errors', async 
 
   await page.locator('[data-consent="reject"]').click();
   await expect(page.locator('#consent')).toBeHidden();
-  for (const selector of ['#servicos', '#diferenciais', '#processo', '#trabalhos', '#avaliacoes', '#produtos']) {
+  for (const selector of ['#servicos', '#processo', '#trabalhos', '#avaliacoes']) {
     await page.locator(selector).scrollIntoViewIfNeeded();
     await page.waitForTimeout(80);
   }
@@ -41,6 +45,30 @@ test('landing page is responsive, functional and free of runtime errors', async 
   expect(errors).toEqual([]);
   expect(failed).toEqual([]);
   await page.screenshot({ path: `/tmp/infocore-${testInfo.project.name}.png`, fullPage: true });
+});
+
+test('product catalog filters items and builds a product-specific WhatsApp message', async ({ page }) => {
+  const products = Array.from({ length: 30 }, (_, index) => ({
+    id: `product-${index}`,
+    name: index === 0 ? 'SSD NVMe 512 GB' : `Produto ${index + 1}`,
+    description: index === 0 ? 'Armazenamento rápido para computadores e notebooks.' : 'Acessório disponível na InfoCore.',
+    category: index % 2 ? 'cell' : 'pc',
+    categoryLabel: index % 2 ? 'Celulares' : 'Computadores',
+    price: 10 + index,
+    emoji: index % 2 ? '📱' : '🖥️',
+    availability: index === 2 ? 'out_of_stock' : index === 1 ? 'low_stock' : 'available',
+    quantity: index === 1 ? 2 : 8,
+  }));
+  await page.route('**/api/catalog/products', (route) => route.fulfill({ contentType: 'application/json', body: JSON.stringify({ available: true, count: 30, inStockCount: 29, categories: [{ id: 'pc', label: 'Computadores', count: 15 }, { id: 'cell', label: 'Celulares', count: 15 }], products }) }));
+  await page.goto('/catalogo');
+  await expect(page.locator('.catalog-card')).toHaveCount(24);
+  await expect(page.locator('#catalog-total')).toHaveText('30');
+  await page.locator('#catalog-search').fill('SSD NVMe');
+  await expect(page.locator('.catalog-card')).toHaveCount(1);
+  const whatsapp = page.locator('.catalog-product-whatsapp');
+  await expect(whatsapp).toHaveAttribute('href', /wa\.me\/5579991343921/);
+  expect(decodeURIComponent(await whatsapp.getAttribute('href'))).toContain('SSD NVMe 512 GB');
+  await expect(page.locator('main')).toHaveJSProperty('scrollWidth', await page.locator('main').evaluate((node) => node.clientWidth));
 });
 
 test('analytics does not include personal form values', async ({ page }) => {
@@ -63,6 +91,38 @@ test('analytics does not include personal form values', async ({ page }) => {
   expect(serialized).toContain('contact_form_error');
 });
 
+test('Instagram posts render from API data and Google uses the free embed', async ({ page }, testInfo) => {
+  await page.route('**/', async (route) => {
+    if (route.request().resourceType() !== 'document') return route.continue();
+    const response = await route.fetch();
+    const body = (await response.text()).replace('"instagram":false', '"instagram":true');
+    await route.fulfill({ response, body });
+  });
+  await page.route('**/api/instagram', (route) => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify({ available: true, posts: Array.from({ length: 6 }, (_, index) => ({ id: `post-${index}`, caption: `Trabalho recente ${index + 1} da InfoCore`, mediaType: index === 1 ? 'VIDEO' : 'IMAGE', mediaUrl: index === 1 ? '/public/img/showcase.webp' : '', thumbnailUrl: '/public/img/showcase.webp', imageUrl: '/public/img/showcase.webp', permalink: 'https://www.instagram.com/infocore_tech/', timestamp: '2026-09-10T12:00:00Z' })) }),
+  }));
+  await page.route('**/api/reviews', (route) => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify({ available: true, rating: 5, count: 19, mapsUrl: 'https://www.google.com/maps', reviews: Array.from({ length: 19 }, (_, index) => ({ id: `review-${index}`, name: index === 1 ? 'Lucas Gabriel' : `Cliente ${index + 1}`, rating: 5, text: `Avaliação pública ${index + 1}`, date: 'recentemente' })) }),
+  }));
+  await page.goto('/');
+  await expect(page.locator('#instagram-feed')).toHaveClass(/has-posts/);
+  await expect(page.locator('.instagram-post')).toHaveCount(5);
+  await expect(page.locator('.instagram-post').first()).toHaveClass(/featured/);
+  if (testInfo.project.name !== 'reduced-motion') await expect(page.locator('.instagram-post video')).toHaveCount(1);
+  await expect(page.locator('.google-embed-card iframe')).toHaveAttribute('src', /google\.com\/maps\/embed\?pb=/);
+  await expect(page.locator('.embed-rating')).toContainText('5,0');
+  await expect(page.locator('.embed-rating')).toContainText('19 avaliações');
+  await expect(page.locator('.google-review-slide')).toHaveCount(19);
+  await expect(page.locator('.google-review-slide.is-active')).toHaveCount(1);
+  await page.locator('[data-review-next]').click();
+  await expect(page.locator('[data-review-current]')).toHaveText('02');
+  await expect(page.locator('.google-review-slide.is-active')).toContainText('Lucas Gabriel');
+  await expect(page.locator('#reviews-link')).toContainText('Ler todas as avaliações');
+  await expect(page.locator('main')).toHaveJSProperty('scrollWidth', await page.locator('main').evaluate((node) => node.clientWidth));
+});
+
 test('PowerShell bridge receives hardware and adapts the recommendation', async ({ page }, testInfo) => {
   await page.goto('/');
   await page.locator('[data-consent="reject"]').click();
@@ -79,6 +139,8 @@ test('PowerShell bridge receives hardware and adapts the recommendation', async 
   const endpoint = `/api/device-diagnostics/${token}/script`;
   const script = await page.evaluate((url) => fetch(url).then((response) => response.text()), endpoint);
   expect(script).toContain('Win32_Processor');
+  expect(script).toContain('Win32_SystemEnclosure');
+  expect(script).toContain('$system.Manufacturer');
   expect(script).not.toContain('SerialNumber');
   expect(launcher).toContain('/launcher');
   await page.evaluate(async (diagnosticToken) => {

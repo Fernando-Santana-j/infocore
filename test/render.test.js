@@ -8,9 +8,16 @@ const serviceShowcase = require('../config/service-showcase');
 const shared = {
   business,
   serviceShowcase,
+  googleReviewSnapshot: {
+    rating: Number(business.googleReviewSnapshot.score.replace(',', '.')),
+    count: business.googleReviewSnapshot.count,
+    reviews: business.googleReviewSnapshot.reviews.map((review) => ({ ...review, rating: 5 })),
+  },
   siteUrl: 'https://infocoretech.com.br',
   canonicalUrl: 'https://infocoretech.com.br/',
   ogImageUrl: 'https://infocoretech.com.br/public/img/og-share.png',
+  assetVersion: 'test',
+  googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=InfoCore',
   pageTitle: 'Teste InfoCore',
   pageDescription: 'Descrição de teste',
   analytics: { gtmId: '', ga4Id: '', clarityId: '', metaPixelId: '' },
@@ -22,10 +29,24 @@ test('landing page renders core conversion and SEO content', async () => {
   assert.match(html, /<h1[^>]*>Seu equipamento/);
   assert.match(html, /Solicitar orçamento/);
   assert.match(html, /Troca de tela/);
+  assert.match(html, /class="visual-services service-catalog"/);
+  assert.match(html, /class="services-catalog-link reveal"/);
+  assert.match(html, /href="\/catalogo"/);
+  assert.doesNotMatch(html, /Upgrades e soluções|class="section products"/);
+  assert.match(html, /class="process-journey"/);
+  assert.doesNotMatch(html, /class="service-bento"|class="why-us"/);
   assert.match(html, /Diagnosticar este PC/);
   assert.match(html, /Um clique para descobrir/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /id="consent"/);
+  assert.match(html, /id="instagram-feed"/);
+  assert.match(html, /class="google-embed-card"/);
+  assert.match(html, /google\.com\/maps\/embed\?pb=/);
+  assert.match(html, /5,0/);
+  assert.match(html, /19 avaliações/);
+  assert.match(html, /data-review-rotator/);
+  assert.match(html, /Leonardo Silva/);
+  assert.match(html, /Ler todas as avaliações/);
   assert.doesNotMatch(html, /2500\+|98%|100% Satisfação|10\+ Anos/);
   assert.doesNotMatch(html, /unsplash\.com|customer-assets\.emergentagent\.com/);
 });
@@ -36,6 +57,15 @@ test('legal pages render with business contact', async () => {
     assert.match(html, /InfoCore/);
     assert.match(html, /Voltar para a InfoCore/);
   }
+});
+
+test('catalog page renders dynamic controls and WhatsApp entry points', async () => {
+  const html = await ejs.renderFile(path.join(__dirname, '../views/catalog.ejs'), { ...shared, canonicalUrl: 'https://infocoretech.com.br/catalogo' });
+  assert.match(html, /Catálogo conectado ao estoque/);
+  assert.match(html, /id="catalog-grid"/);
+  assert.match(html, /id="catalog-search"/);
+  assert.match(html, /api\/catalog\/products|catalog\.js/);
+  assert.match(html, /wa\.me\/5579991343921/);
 });
 
 test('business data is centralized and does not claim unverified hours', () => {

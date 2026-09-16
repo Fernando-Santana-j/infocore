@@ -2,11 +2,22 @@ const { test, expect } = require('@playwright/test');
 
 test('diagnostic cards never intersect and connectors terminate on components', async ({ page }, testInfo) => {
   test.setTimeout(90000);
+  const notebook = testInfo.project.name === 'reduced-motion';
+  if (notebook) await page.addInitScript(() => {
+    Object.defineProperty(screen, 'width', { configurable: true, value: 1920 });
+    Object.defineProperty(screen, 'height', { configurable: true, value: 1080 });
+    Object.defineProperty(window, 'devicePixelRatio', { configurable: true, value: 1 });
+    Object.defineProperty(navigator, 'getBattery', { configurable: true, value: async () => ({ charging: true, level: 1 }) });
+  });
   await page.goto('/');
   await page.locator('[data-consent="reject"]').click();
   const mobile = testInfo.project.name === 'mobile';
-  const notebook = testInfo.project.name === 'reduced-motion';
   if (mobile) await expect(page.locator('#device-stage')).toHaveClass(/is-phone/);
+  if (notebook) {
+    await expect(page.locator('#device-stage')).toHaveClass(/is-notebook/);
+    await expect(page.locator('#diag-device-label')).toContainText('Notebook reconhecido');
+    await expect(page.locator('#diag-configure')).toContainText('notebook');
+  }
   if (!mobile) {
     await page.locator('#diag-configure').click();
     await expect(page.locator('#diagnostic-download')).toHaveAttribute('href', /launcher/);
@@ -14,10 +25,11 @@ test('diagnostic cards never intersect and connectors terminate on components', 
     await page.request.post(url.replace('/launcher', ''), { data: {
       cpu: 'Intel Core i7-14700K 20-Core Processor with a deliberately long description',
       ramGb: 32, gpus: ['NVIDIA GeForce RTX 4070 Ti SUPER 16 GB GDDR6X'],
-      disks: [{ model: 'Samsung SSD 990 PRO NVMe', sizeGb: 2000 }], model: notebook ? 'Dell Inspiron 15 3530' : 'Custom workstation', deviceType: notebook ? 'notebook' : 'pc',
+      disks: [{ model: 'Samsung SSD 990 PRO NVMe', sizeGb: 2000 }], manufacturer: notebook ? 'Lenovo' : 'System manufacturer', model: notebook ? 'IdeaPad Slim 3 15IAH8' : 'Custom workstation', deviceType: notebook ? 'notebook' : 'pc',
     } });
     await page.locator('#diagnostic-check-now').click();
     await expect(page.locator('#diag-cta')).toContainText('Enviar diagnóstico');
+    if (notebook) await expect(page.locator('#diag-model')).toHaveText('Lenovo IdeaPad Slim 3 15IAH8');
     await expect(page.locator('#diagnostic-dialog')).toBeHidden();
     expect(decodeURIComponent(await page.locator('#diag-cta').getAttribute('href'))).toContain('NVIDIA GeForce');
   }
