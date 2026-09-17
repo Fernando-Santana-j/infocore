@@ -38,6 +38,8 @@ test('landing page renders core conversion and SEO content', async () => {
   assert.match(html, /Diagnosticar este PC/);
   assert.match(html, /Um clique para descobrir/);
   assert.match(html, /application\/ld\+json/);
+  assert.match(html, /rel="icon" href="\/favicon\.ico" sizes="48x48 192x192"/);
+  assert.match(html, /href="\/public\/favicon-48\.png" sizes="48x48"/);
   assert.match(html, /id="consent"/);
   assert.match(html, /id="instagram-feed"/);
   assert.match(html, /class="google-embed-card"/);
@@ -47,6 +49,10 @@ test('landing page renders core conversion and SEO content', async () => {
   assert.match(html, /data-review-rotator/);
   assert.match(html, /Leonardo Silva/);
   assert.match(html, /Ler todas as avaliações/);
+  assert.match(html, /Praça Abel Jacó dos Santos, 889/);
+  assert.match(html, /CEP 49480-000/);
+  assert.match(html, /Segunda a sábado · 08:00–18:00/);
+  assert.match(html, /Domingo · Fechado/);
   assert.doesNotMatch(html, /2500\+|98%|100% Satisfação|10\+ Anos/);
   assert.doesNotMatch(html, /unsplash\.com|customer-assets\.emergentagent\.com/);
 });
@@ -68,8 +74,10 @@ test('catalog page renders dynamic controls and WhatsApp entry points', async ()
   assert.match(html, /wa\.me\/5579991343921/);
 });
 
-test('business data is centralized and does not claim unverified hours', () => {
+test('business contact data and Google opening hours are centralized', () => {
   assert.equal(business.phoneE164, '+5579991343921');
   assert.equal(business.address.city, 'Simão Dias');
-  assert.equal(business.hours, null);
+  assert.equal(business.address.postalCode, '49480-000');
+  assert.equal(business.hours.mondayToSaturday, '08:00–18:00');
+  assert.equal(business.hours.sunday, 'Fechado');
 });

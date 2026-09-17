@@ -17,11 +17,13 @@ const businessConfig = Object.freeze({
     postalCode: '49480-000',
     country: 'BR',
   },
-  // Os horários encontrados no site antigo eram divergentes. Confirme antes de preencher.
-  hours: null,
+  hours: Object.freeze({
+    mondayToSaturday: '08:00–18:00',
+    sunday: 'Fechado',
+  }),
   instagramHandle: '@infocore_tech',
   instagramUrl: 'https://www.instagram.com/infocore_tech/',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=InfoCore%20Inform%C3%A1tica%20Sim%C3%A3o%20Dias%20SE',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=InfoCore%20Inform%C3%A1tica%2C%20Pra%C3%A7a%20Abel%20Jac%C3%B3%20dos%20Santos%20889%2C%20Centro%2C%20Sim%C3%A3o%20Dias%2C%20SE',
   // Gerado no Google Maps em Compartilhar > Incorporar um mapa. Não exige credenciais.
   googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.916762763449!2d-37.813852100000005!3d-10.7408985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70fd7ecc7be7301%3A0xdd57bbbdb8a2384d!2sInfoCore%20%7C%20Assist%C3%AAncia%20t%C3%A9cnica%20de%20Computadores%20e%20Notebooks!5e0!3m2!1spt-BR!2sbr!4v1789482284191!5m2!1spt-BR!2sbr',
   // Identificador público do perfil, usado somente pelo sincronizador gratuito e em cache.

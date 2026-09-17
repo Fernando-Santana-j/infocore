@@ -53,6 +53,7 @@ const googleReviewsProvider = () => {
   return 'embed';
 };
 
+app.get('/favicon.ico', (_req, res) => res.type('image/x-icon').set('Cache-Control', 'public, max-age=604800').sendFile(path.join(__dirname, 'public', 'favicon.ico')));
 app.get('/robots.txt', (req, res) => res.type('text/plain').set('Cache-Control', 'public, max-age=3600').send(`User-agent: *\nAllow: /\n\nSitemap: ${siteOrigin(req)}/sitemap.xml\n`));
 app.get('/sitemap.xml', (req, res) => {
   const origin = siteOrigin(req);
