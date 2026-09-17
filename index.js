@@ -68,7 +68,7 @@ app.get('/api/catalog/products', async (_req, res) => {
 app.get('/api/reviews', async (_req, res) => {
   const provider = googleReviewsProvider();
   if (provider === 'embed') {
-    return res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=43200').json(googleReviewStore.getSnapshot());
+    return res.set('Cache-Control', 'no-store').json(googleReviewStore.getSnapshot());
   }
   const businessProfileConfigured = googleBusinessProfileConfigured();
   const placesConfigured = !!(process.env.GOOGLE_PLACES_API_KEY && process.env.GOOGLE_PLACE_ID);
@@ -108,9 +108,7 @@ app.get('/api/reviews', async (_req, res) => {
           locationName = String(selected.name || '').replace(/^locations\//, '');
         }
         const parent = `accounts/${encodeURIComponent(accountName)}/locations/${encodeURIComponent(locationName)}`;
-        const profileResponse = await fetchWithTimeout(`https://mybusiness.googleapis.com/v4/${parent}/reviews?pageSize=6&orderBy=updateTime%20desc`, { headers: { Authorization: `Bearer ${token.access_token}` } });
-        if (!profileResponse.ok) throw new Error('google_business_profile_failed');
-        const payload = await profileResponse.json();
+        const payload = await require('./services/google-business-reviews')(parent, token.access_token, fetchWithTimeout);
         const starValues = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5 };
         return {
           available: true,
@@ -119,7 +117,7 @@ app.get('/api/reviews', async (_req, res) => {
           rating: Number(payload.averageRating) || 0,
           count: Number(payload.totalReviewCount) || 0,
           mapsUrl: business.googleReviewsUrl || business.mapsUrl,
-          reviews: (payload.reviews || []).slice(0, 6).map((review) => ({
+          reviews: payload.reviews.map((review) => ({
             id: review.reviewId || review.name || '',
             name: review.reviewer?.displayName || 'Cliente',
             avatar: review.reviewer?.profilePhotoUrl || '',

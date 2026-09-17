@@ -92,6 +92,8 @@ test('analytics does not include personal form values', async ({ page }) => {
 });
 
 test('Instagram posts render from API data and Google uses the free embed', async ({ page }, testInfo) => {
+  await page.clock.install();
+  let reviewCount = 19;
   await page.route('**/', async (route) => {
     if (route.request().resourceType() !== 'document') return route.continue();
     const response = await route.fetch();
@@ -104,7 +106,7 @@ test('Instagram posts render from API data and Google uses the free embed', asyn
   }));
   await page.route('**/api/reviews', (route) => route.fulfill({
     contentType: 'application/json',
-    body: JSON.stringify({ available: true, rating: 5, count: 19, mapsUrl: 'https://www.google.com/maps', reviews: Array.from({ length: 19 }, (_, index) => ({ id: `review-${index}`, name: index === 1 ? 'Lucas Gabriel' : `Cliente ${index + 1}`, rating: 5, text: `Avaliação pública ${index + 1}`, date: 'recentemente' })) }),
+    body: JSON.stringify({ available: true, rating: 5, count: reviewCount, mapsUrl: 'https://www.google.com/maps', reviews: Array.from({ length: reviewCount }, (_, index) => ({ id: `review-${index}`, name: index === 1 ? 'Lucas Gabriel' : `Cliente ${index + 1}`, rating: 5, text: `Avaliação pública ${index + 1}`, date: 'recentemente' })) }),
   }));
   await page.goto('/');
   await expect(page.locator('#instagram-feed')).toHaveClass(/has-posts/);
@@ -119,6 +121,12 @@ test('Instagram posts render from API data and Google uses the free embed', asyn
   await page.locator('[data-review-next]').click();
   await expect(page.locator('[data-review-current]')).toHaveText('02');
   await expect(page.locator('.google-review-slide.is-active')).toContainText('Lucas Gabriel');
+  await page.clock.fastForward(30000);
+  await expect(page.locator('[data-review-current]')).toHaveText('02');
+  reviewCount = 23;
+  await page.clock.fastForward(30000);
+  await expect(page.locator('.google-review-slide')).toHaveCount(23);
+  await expect(page.locator('.embed-rating')).toContainText('23 avaliações');
   await expect(page.locator('#reviews-link')).toContainText('Ler todas as avaliações');
   await expect(page.locator('main')).toHaveJSProperty('scrollWidth', await page.locator('main').evaluate((node) => node.clientWidth));
 });

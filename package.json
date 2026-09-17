@@ -20,8 +20,11 @@
     "dev": "nodemon index.js",
     "google:connect": "node scripts/google-business-connect.js",
     "build": "npm run check && npm test",
-    "check": "node --check index.js && node --check ecosystem.config.js && node --check services/google-review-store.js && node --check services/product-catalog.js && node --check services/product-store.js && node --check scripts/google-business-connect.js && node --check public/js/analytics.js && node --check public/js/script.js && node --check public/js/catalog.js",
-    "test:e2e": "playwright test"
+    "check": "node --check index.js && node --check ecosystem.config.js && node --check services/google-review-store.js && node --check services/google-business-reviews.js && node --check services/product-catalog.js && node --check services/product-store.js && node --check scripts/google-business-connect.js && node --check scripts/google-reviews-sync.js && node --check public/js/analytics.js && node --check public/js/script.js && node --check public/js/catalog.js",
+    "test:e2e": "playwright test",
+    "google:setup": "PLAYWRIGHT_BROWSERS_PATH=.cache/ms-playwright playwright install chromium --only-shell",
+    "google:sync": "node scripts/google-reviews-sync.js",
+    "postinstall": "npm run google:setup"
   },
   "dependencies": {
     "compression": "^1.8.1",

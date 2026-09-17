@@ -7,17 +7,13 @@ test('diagnostic cards never intersect and connectors terminate on components', 
     Object.defineProperty(screen, 'width', { configurable: true, value: 1920 });
     Object.defineProperty(screen, 'height', { configurable: true, value: 1080 });
     Object.defineProperty(window, 'devicePixelRatio', { configurable: true, value: 1 });
-    Object.defineProperty(navigator, 'getBattery', { configurable: true, value: async () => ({ charging: true, level: 1 }) });
+    Object.defineProperty(navigator, 'getBattery', { configurable: true, value: async () => ({ charging: false, level: .5 }) });
   });
   await page.goto('/');
   await page.locator('[data-consent="reject"]').click();
   const mobile = testInfo.project.name === 'mobile';
   if (mobile) await expect(page.locator('#device-stage')).toHaveClass(/is-phone/);
-  if (notebook) {
-    await expect(page.locator('#device-stage')).toHaveClass(/is-notebook/);
-    await expect(page.locator('#diag-device-label')).toContainText('Notebook reconhecido');
-    await expect(page.locator('#diag-configure')).toContainText('notebook');
-  }
+  if (!mobile) await expect(page.locator('#device-stage')).not.toHaveClass(/is-notebook|is-phone/);
   if (!mobile) {
     await page.locator('#diag-configure').click();
     await expect(page.locator('#diagnostic-download')).toHaveAttribute('href', /launcher/);

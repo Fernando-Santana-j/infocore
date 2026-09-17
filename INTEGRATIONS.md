@@ -30,7 +30,11 @@ Crie ou selecione um Pixel no Gerenciador de Eventos e informe `META_PIXEL_ID`. 
 
 A configuração padrão é `GOOGLE_REVIEWS_PROVIDER=embed`. Ela não precisa de chave, projeto no Google Cloud, OAuth ou cartão. O mapa oficial continua incorporado e um sincronizador de melhor esforço abre o painel público de avaliações em um Chromium leve, percorre a lista e grava o resultado em `.cache/google-reviews.json`.
 
-A sincronização ocorre 15 segundos após a inicialização e depois a cada 12 horas. Visitantes nunca esperam o Maps: a página e `/api/reviews` leem apenas a última cópia válida. Uma resposta incompleta ou um bloqueio temporário do Google não apaga o conjunto já coletado. `GOOGLE_REVIEWS_PUBLIC_SYNC=0` desativa novas coletas sem apagar o cache. Como esse acesso usa a interface pública não documentada do Maps, ele é necessariamente de melhor esforço; a opção oficial e estável continua sendo a Business Profile API abaixo.
+A instalação inclui uma cópia inicial das 19 avaliações públicas coletadas em `data/google-reviews-bootstrap.json`, para não voltar às três avaliações antigas enquanto a primeira sincronização roda. A cópia persistida mais recente tem preferência, e novas avaliações entram pela coleta automática.
+
+O `postinstall` instala automaticamente o Chromium em `.cache/ms-playwright` ao executar `npm install`/`npm ci`. Se scripts de instalação estiverem desativados, execute `npm run google:setup`. Para usar uma instalação externa, informe `PLAYWRIGHT_BROWSERS_PATH`. `npm run google:sync` força uma coleta e informa quantas avaliações foram recuperadas.
+
+A sincronização ocorre 15 segundos após a inicialização e depois a cada 5 minutos (ajustável em `GOOGLE_REVIEWS_REFRESH_MS`, mínimo de 60 segundos). Visitantes nunca esperam o Maps: a página e `/api/reviews` leem apenas a última cópia válida. Falhas ou coletas incompletas são tentadas novamente após um minuto. O navegador consulta novas avaliações a cada 30 segundos enquanto a página está visível e ao retornar à aba. Assim, uma nova avaliação pública entra automaticamente após a próxima coleta bem-sucedida, sem recarregar a página. Uma resposta incompleta ou um bloqueio temporário do Google não apaga o conjunto já coletado. `GOOGLE_REVIEWS_PUBLIC_SYNC=0` desativa novas coletas sem apagar o cache. Como esse acesso usa a interface pública não documentada do Maps, ele é necessariamente de melhor esforço; a opção oficial e estável continua sendo a Business Profile API abaixo.
 
 Os botões externos podem ser ajustados com `GOOGLE_REVIEWS_URL` e `GOOGLE_REVIEW_WRITE_URL`; se ficarem vazios, o primeiro usa a busca pública definida em `config/business.js`.
 
@@ -49,7 +53,7 @@ Depois de cadastrar `http://127.0.0.1:3136/oauth2callback` como URI autorizada n
 
 O backend descobre automaticamente a conta e a localização quando existe apenas uma opção ou quando `GOOGLE_PLACE_ID` corresponde ao local gerenciado. Se houver mais de uma conta ou local e não for possível resolver sem ambiguidade, preencha também `GOOGLE_BUSINESS_ACCOUNT_ID` e `GOOGLE_BUSINESS_LOCATION_ID`.
 
-Nesse modo avançado, o navegador chama `/api/reviews`; o servidor renova o access token, busca as avaliações com `orderBy=updateTime desc`, reduz o payload e mantém cache em memória por 6 horas. O modo antigo da Places API continua disponível somente se `GOOGLE_REVIEWS_PROVIDER=places` for definido explicitamente.
+Nesse modo avançado, o navegador chama `/api/reviews`; o servidor renova o access token, percorre todas as páginas de avaliações (50 por requisição) com `orderBy=updateTime desc`, reduz o payload e mantém cache em memória por 6 horas. O modo antigo da Places API continua disponível somente se `GOOGLE_REVIEWS_PROVIDER=places` for definido explicitamente.
 
 ## Instagram Graph API
 

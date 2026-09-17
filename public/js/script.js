@@ -138,13 +138,11 @@
     function detectBrowserDevice() {
         const ua = navigator.userAgent || '';
         const platform = navigator.userAgentData?.platform || navigator.platform || '';
-        const mobile = navigator.userAgentData?.mobile === true || /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua) || (navigator.maxTouchPoints > 1 && Math.min(screen.width, innerWidth) < 820);
+        const mobile = navigator.userAgentData?.mobile === true || /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua) || (navigator.maxTouchPoints > 1 && /Mac/i.test(platform));
         if (mobile) return 'mobile';
         if (/notebook|laptop/i.test(ua)) return 'notebook';
-        const touchComputer = navigator.maxTouchPoints > 0 && /Win|Mac/i.test(platform);
-        const scaledPortableScreen = devicePixelRatio > 1 && screen.width <= 1920 && screen.height <= 1200;
-        const commonPortableScreen = screen.width <= 1920 && screen.height <= 1200;
-        return touchComputer || scaledPortableScreen || commonPortableScreen ? 'notebook' : 'desktop';
+        // Screen size, touch support and batteries also occur on desktop PCs.
+        return 'desktop';
     }
     let browserDeviceType = detectBrowserDevice();
     const isMobileDevice = browserDeviceType === 'mobile';
@@ -232,14 +230,6 @@
     }
     const browserDiagnostic = () => setDiagnostic({ device: browserDeviceType === 'mobile' ? 'mobile' : 'desktop', deviceType: browserDeviceType, memory: navigator.deviceMemory || 0, cores: navigator.hardwareConcurrency || null });
     browserDiagnostic();
-    if (browserDeviceType !== 'mobile' && typeof navigator.getBattery === 'function') {
-        navigator.getBattery().then((battery) => {
-            if (!battery.charging || battery.level < .98) {
-                browserDeviceType = 'notebook';
-                browserDiagnostic();
-            }
-        }).catch(() => { });
-    }
     if (isMobileDevice) { const configure = document.getElementById('diag-configure'); configure.hidden = true; document.getElementById('diag-description').textContent = 'Você está no celular. Quando estiver no computador, faça o check-up completo para identificar as peças.'; }
     async function pollDiagnostic() {
         if (!diagnosticToken) return;
@@ -310,14 +300,18 @@
         });
     }
 
+    let lastReviewsPayload = '';
     async function loadReviews() {
         const rotator = document.querySelector('[data-review-rotator]');
         if (!rotator || !appConfig.integrations?.googleReviews) return;
         try {
-            const response = await fetch('/api/reviews');
+            const response = await fetch('/api/reviews', { cache: 'no-store' });
             if (!response.ok) return;
             const data = await response.json();
             if (!data.available) return;
+            const payloadKey = JSON.stringify([data.rating, data.count, data.mapsUrl, data.reviews]);
+            if (payloadKey === lastReviewsPayload) return;
+            lastReviewsPayload = payloadKey;
             const rating = Math.max(0, Math.min(5, Number(data.rating) || 0));
             const count = Math.max(0, Number(data.count) || 0);
             const reviews = (Array.isArray(data.reviews) ? data.reviews : []).filter((review) => review.name || review.text);
@@ -380,6 +374,8 @@
         return new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: date.getFullYear() === new Date().getFullYear() ? undefined : 'numeric' }).format(date).replace('.', '');
     }
     loadReviews(); loadInstagram();
+    setInterval(() => { if (!document.hidden) loadReviews(); }, 30000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) loadReviews(); });
 
     const consentPanel = document.getElementById('consent'); const consentSettings = consentPanel?.querySelector('.consent-settings'); const saveButton = consentPanel?.querySelector('.consent-save');
     if (consentPanel && !analytics?.getConsent()) { consentPanel.hidden = false; }

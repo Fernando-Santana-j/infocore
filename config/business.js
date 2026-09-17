@@ -1,3 +1,5 @@
+const initialGoogleReviews = require('../data/google-reviews-bootstrap.json');
+
 const businessConfig = Object.freeze({
   name: 'InfoCore Informática',
   shortName: 'InfoCore',
@@ -26,14 +28,10 @@ const businessConfig = Object.freeze({
   googleMapsCid: '15949423028876752973',
   googleReviewsPageUrl: 'https://www.google.com/maps/place/InfoCore/data=!4m8!3m7!1s0x70fd7ecc7be7301:0xdd57bbbdb8a2384d!8m2!3d-10.7408985!4d-37.8138521!9m1!1b1!16s%2Fg%2F11zb5ld8d6?hl=pt-BR',
   googleReviewSnapshot: Object.freeze({
-    score: '5,0',
-    count: 19,
-    checkedAt: 'setembro de 2026',
-    reviews: Object.freeze([
-      Object.freeze({ name: 'Vittor', text: 'Muito bom comprei o USB C para USB A e Gostei muito além do antendimento bem o produto testado e aprovado 🤝😊' }),
-      Object.freeze({ name: 'Lucas Gabriel', text: 'Muito bom, o problema do meu computador sem gastar quase nada.' }),
-      Object.freeze({ name: 'Leonardo Silva', text: 'Loja muito boa. Com peças de qualidade e atendimento profissional.' }),
-    ]),
+    score: String(initialGoogleReviews.rating).replace('.', ','),
+    count: initialGoogleReviews.count,
+    lastSuccessAt: initialGoogleReviews.lastSuccessAt,
+    reviews: Object.freeze(initialGoogleReviews.reviews.map((review) => Object.freeze(review))),
   }),
   googleReviewsUrl: process.env.GOOGLE_REVIEWS_URL || '',
   googleReviewWriteUrl: process.env.GOOGLE_REVIEW_WRITE_URL || '',
