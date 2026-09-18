@@ -135,11 +135,11 @@ test('PowerShell bridge receives hardware and adapts the recommendation', async 
   await page.goto('/');
   await page.locator('[data-consent="reject"]').click();
   if (testInfo.project.name === 'mobile') {
-    await expect(page.locator('#diag-configure')).toBeHidden();
+    await expect(page.locator('#diag-action')).toHaveAttribute('data-mode', 'whatsapp');
     await expect(page.locator('#device-stage')).toHaveClass(/is-phone/);
     return;
   }
-  await page.locator('#diag-configure').click();
+  await page.locator('#diag-action').click();
   await expect(page.locator('#diagnostic-dialog')).toBeVisible();
   await expect(page.locator('#diagnostic-download')).toHaveAttribute('href', /device-diagnostics\/[^/]+\/launcher/);
   const launcher = await page.locator('#diagnostic-download').getAttribute('href');
@@ -148,6 +148,8 @@ test('PowerShell bridge receives hardware and adapts the recommendation', async 
   const script = await page.evaluate((url) => fetch(url).then((response) => response.text()), endpoint);
   expect(script).toContain('Win32_Processor');
   expect(script).toContain('Win32_SystemEnclosure');
+  expect(script).toContain('Win32_Battery');
+  expect(script).toContain('$isNotebook');
   expect(script).toContain('$system.Manufacturer');
   expect(script).not.toContain('SerialNumber');
   expect(launcher).toContain('/launcher');
@@ -158,7 +160,7 @@ test('PowerShell bridge receives hardware and adapts the recommendation', async 
   await expect(page.locator('#diagnostic-dialog')).toBeHidden();
   await expect(page.locator('#diag-headline')).toContainText('SSD');
   await expect(page.locator('#diag-memory')).toContainText('4 GB');
-  await expect(page.locator('#diag-cta')).toHaveAttribute('href', /upgrade%20de%20SSD/);
+  await expect(page.locator('#diag-action')).toHaveAttribute('href', /upgrade%20de%20SSD/);
   const events = await page.evaluate(() => window.dataLayer.filter((item) => item?.event).map((item) => item.event));
   expect(events).toContain('diagnostic_start');
   expect(events).toContain('diagnostic_complete');

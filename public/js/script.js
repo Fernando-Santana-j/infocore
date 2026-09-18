@@ -104,7 +104,7 @@
     const diagnostic = document.getElementById('diagnostic');
     const diagnosticStage = document.getElementById('device-stage');
     const diagnosticDialog = document.getElementById('diagnostic-dialog');
-    const diagnosticCta = document.getElementById('diag-cta');
+    const diagnosticAction = document.getElementById('diag-action');
     function alignDiagnosticConnectors() {
         if (!diagnosticStage) return;
         const layer = diagnosticStage.querySelector('.device-connectors g');
@@ -132,9 +132,9 @@
         }
     }
     if (diagnosticStage) new ResizeObserver(alignDiagnosticConnectors).observe(diagnosticStage);
-    if (diagnosticCta) new IntersectionObserver(([entry]) => {
+    if (diagnosticAction) new IntersectionObserver(([entry]) => {
         document.body.classList.toggle('diagnostic-actions-visible', entry.isIntersecting);
-    }).observe(diagnosticCta);
+    }).observe(diagnosticAction);
     function detectBrowserDevice() {
         const ua = navigator.userAgent || '';
         const platform = navigator.userAgentData?.platform || navigator.platform || '';
@@ -153,7 +153,8 @@
         if (source === 'browser' && fullDiagnosticReceived) return;
         if (source === 'powershell') fullDiagnosticReceived = true;
         const isPhone = data.device === 'mobile';
-        const isNotebook = !isPhone && (data.deviceType === 'notebook' || /notebook|laptop/i.test(data.model || ''));
+        const portableModel = /notebook|laptop|ultrabook|ideapad|thinkpad|vivobook|zenbook|aspire|nitro|latitude|inspiron|elitebook|probook|pavilion|victus|legion|surface/i;
+        const isNotebook = !isPhone && (data.deviceType === 'notebook' || portableModel.test(`${data.manufacturer || ''} ${data.model || ''}`));
         const complete = source === 'powershell';
         diagnosticStage?.classList.toggle('is-phone', isPhone);
         diagnosticStage?.classList.toggle('is-notebook', isNotebook);
@@ -172,7 +173,7 @@
         const manufacturer = genericHardwareNames.test(data.manufacturer || '') ? '' : String(data.manufacturer || '').trim();
         const model = genericHardwareNames.test(data.model || '') ? '' : String(data.model || '').trim();
         const deviceName = [manufacturer, model].filter((value, index, values) => value && !values.slice(0, index).some((previous) => previous.toLowerCase() === value.toLowerCase())).join(' ');
-        document.getElementById('diag-model').textContent = isPhone ? 'Celular' : (deviceName || (isNotebook ? 'Notebook' : 'PC desktop'));
+        document.getElementById('diag-model').textContent = isPhone ? 'Celular' : (deviceName || (isNotebook ? 'Notebook' : (complete ? 'PC desktop' : 'Computador')));
         document.getElementById('diag-memory').textContent = memoryText;
         document.getElementById('diag-profile').textContent = storageText;
         document.getElementById('diag-state').textContent = complete ? 'DIAGNÓSTICO RECEBIDO' : 'LEITURA BÁSICA';
@@ -210,27 +211,36 @@
             recommendation = `Meu diagnóstico: ${data.cpu}; ${memoryText} de RAM; ${storageText}; vídeo: ${gpu}. Quero uma orientação de melhoria.`;
             buttonLabel = 'Enviar diagnóstico pelo WhatsApp';
         } else {
-            label.textContent = 'PC desktop reconhecido automaticamente';
-            headline.textContent = 'Seu computador já está pronto para o check-up.';
-            description.textContent = 'Para identificar as peças de verdade, use o diagnóstico completo no Windows.';
-            buttonLabel = 'Diagnosticar este PC';
+            label.textContent = 'Computador detectado';
+            headline.textContent = 'Vamos identificar se é PC ou notebook.';
+            description.textContent = 'O navegador não informa o formato do equipamento com segurança. O diagnóstico completo no Windows confirma o tipo e identifica as peças.';
+            buttonLabel = 'Diagnosticar este computador';
         }
-        const configureButton = document.getElementById('diag-configure');
-        if (configureButton && !isPhone) configureButton.textContent = isNotebook ? 'Diagnosticar este notebook' : 'Diagnosticar este PC';
         if (complete && !isPhone) {
             buttonLabel = 'Enviar diagnóstico pelo WhatsApp';
             recommendation = [`Equipamento: ${deviceName || (isNotebook ? 'Notebook' : 'PC')}`, `CPU: ${cpuText}`, `RAM: ${memoryText}`, `GPU: ${(data.gpus || []).join(', ') || 'Não identificada'}`, `Discos: ${disks.map(disk => `${disk.model} (${disk.sizeGb} GB)`).join(', ') || 'Não identificados'}`, `Temperatura: ${temp ? `${temp}°C (sensor informado)` : 'Não disponível'}`, recommendation].join('\n');
         }
-        diagnosticCta.childNodes[0].textContent = `${buttonLabel} `;
-        diagnosticCta.href = `https://wa.me/${appConfig.business?.whatsappNumber || '5579991343921'}?text=${encodeURIComponent(`Olá! Fiz o check-up no site da InfoCore. ${recommendation}`)}`;
-        diagnosticCta.dataset.label = isPhone ? 'montar_primeiro_pc' : 'melhorar_pc';
+        const actionLabel = document.getElementById('diag-action-label');
+        if (actionLabel) actionLabel.textContent = buttonLabel;
+        if (diagnosticAction) {
+            const whatsappMode = isPhone || complete;
+            diagnosticAction.dataset.mode = whatsappMode ? 'whatsapp' : 'diagnostic';
+            diagnosticAction.dataset.label = isPhone ? 'montar_primeiro_pc' : (complete ? 'enviar_diagnostico' : 'iniciar_diagnostico');
+            diagnosticAction.href = whatsappMode ? `https://wa.me/${appConfig.business?.whatsappNumber || '5579991343921'}?text=${encodeURIComponent(`Olá! Fiz o check-up no site da InfoCore. ${recommendation}`)}` : '#';
+            if (whatsappMode) { diagnosticAction.target = '_blank'; diagnosticAction.rel = 'noopener'; }
+            else { diagnosticAction.removeAttribute('target'); diagnosticAction.removeAttribute('rel'); }
+        }
         diagnostic?.classList.add('scan-complete');
         alignDiagnosticConnectors();
         setTimeout(alignDiagnosticConnectors, reducedMotion ? 0 : 520);
     }
     const browserDiagnostic = () => setDiagnostic({ device: browserDeviceType === 'mobile' ? 'mobile' : 'desktop', deviceType: browserDeviceType, memory: navigator.deviceMemory || 0, cores: navigator.hardwareConcurrency || null });
     browserDiagnostic();
-    if (isMobileDevice) { const configure = document.getElementById('diag-configure'); configure.hidden = true; document.getElementById('diag-description').textContent = 'Você está no celular. Quando estiver no computador, faça o check-up completo para identificar as peças.'; }
+    if (!isMobileDevice && browserDeviceType === 'desktop' && navigator.getBattery) navigator.getBattery().then((battery) => {
+        const hasPortableBattery = battery.charging === false || Number(battery.level) < .99 || Number.isFinite(Number(battery.dischargingTime));
+        if (hasPortableBattery && !fullDiagnosticReceived) { browserDeviceType = 'notebook'; browserDiagnostic(); }
+    }).catch(() => {});
+    if (isMobileDevice) document.getElementById('diag-description').textContent = 'Você está no celular. Quando estiver no computador, faça o check-up completo para identificar as peças.';
     async function pollDiagnostic() {
         if (!diagnosticToken) return;
         const syncStatus = document.getElementById('diagnostic-sync-status');
@@ -246,9 +256,10 @@
             } else if (result.status === 'expired') { clearInterval(diagnosticPollTimer); syncStatus.textContent = 'A sessão expirou. Feche e gere um novo diagnóstico.'; }
         } catch (_) { syncStatus.textContent = 'Não foi possível verificar agora. Tentaremos novamente automaticamente.'; }
     }
-    document.getElementById('diag-configure')?.addEventListener('click', async () => {
-        if (isMobileDevice) return;
-        track('diagnostic_start', { section: 'diagnostic', detected_device: isMobileDevice ? 'mobile' : 'desktop' });
+    diagnosticAction?.addEventListener('click', async (event) => {
+        if (diagnosticAction.dataset.mode === 'whatsapp') { track('whatsapp_click', { section: 'diagnostic', label: diagnosticAction.dataset.label }); return; }
+        event.preventDefault();
+        track('diagnostic_start', { section: 'diagnostic', detected_device: browserDeviceType });
         if (diagnosticDialog?.showModal) diagnosticDialog.showModal(); else diagnosticDialog?.setAttribute('open', '');
         document.getElementById('diagnostic-sync-status').textContent = 'Criando uma sessão segura…';
         try {

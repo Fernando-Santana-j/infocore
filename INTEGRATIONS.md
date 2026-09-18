@@ -71,7 +71,7 @@ A página `/catalogo` lê a coleção `products` do mesmo Firestore usado pelo s
 
 O servidor mantém uma cópia persistente em `.cache/products.json` e uma escuta em tempo real da coleção. Alterações de preço, estoque, nome ou status entram no catálogo automaticamente, sem aguardar uma visita. O cache faz a página abrir imediatamente e preserva a última versão válida durante lentidão ou indisponibilidade temporária do Firebase. `PRODUCT_CATALOG_SYNC=0` interrompe novas sincronizações sem apagar o cache.
 
-Imagens HTTPS cadastradas no produto são usadas diretamente. Caminhos locais de `uploads` passam pela rota restrita `/catalog-media`; por padrão ela lê `../InfoCore-System/uploads`, ou o diretório definido em `PRODUCT_MEDIA_DIR`. Produtos sem foto recebem uma ilustração visual por categoria, sem usar imagens falsas.
+Imagens HTTPS cadastradas no produto são usadas diretamente. Caminhos locais de `uploads` são convertidos para a origem pública definida em `PRODUCT_MEDIA_BASE_URL` (por padrão, `https://system.infocoretech.com.br`), evitando depender de arquivos locais entre aplicações ou servidores diferentes. Quando os dois aplicativos compartilham fisicamente a mesma pasta, defina `PRODUCT_MEDIA_BASE_URL=local`; nesse modo, a rota restrita `/catalog-media` lê `../InfoCore-System/uploads` ou o diretório informado em `PRODUCT_MEDIA_DIR`. Produtos sem foto — ou cuja foto falhe ao carregar — recebem a ilustração visual da categoria.
 
 ## Formulário
 

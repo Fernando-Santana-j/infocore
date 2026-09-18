@@ -7,6 +7,8 @@ const CATEGORY_LABELS = Object.freeze({
   others: 'Acessórios',
 });
 
+const DEFAULT_PRODUCT_MEDIA_BASE_URL = 'https://system.infocoretech.com.br';
+
 const clean = (value, max = 500) => String(value || '').replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
 const number = (value) => Number.isFinite(Number(value)) ? Number(value) : 0;
 
@@ -15,7 +17,12 @@ function publicImage(value) {
   if (/^https:\/\//i.test(image)) return image;
   if (!image) return '';
   const filename = path.basename(image);
-  return filename && filename !== '.' ? `/catalog-media/${encodeURIComponent(filename)}` : '';
+  if (!filename || filename === '.') return '';
+  const configuredBaseUrl = clean(process.env.PRODUCT_MEDIA_BASE_URL || DEFAULT_PRODUCT_MEDIA_BASE_URL, 1200).replace(/\/+$/, '');
+  const mediaBaseUrl = /^https:\/\/[^/]+/i.test(configuredBaseUrl) ? configuredBaseUrl : '';
+  return mediaBaseUrl
+    ? `${mediaBaseUrl}/uploads/${encodeURIComponent(filename)}`
+    : `/catalog-media/${encodeURIComponent(filename)}`;
 }
 
 function normalizePublicProduct(row) {
@@ -56,4 +63,4 @@ function buildPublicCatalog(rows) {
   return { available: true, count: products.length, inStockCount: products.filter((product) => product.availability !== 'out_of_stock').length, categories, products, updatedAt };
 }
 
-module.exports = { CATEGORY_LABELS, normalizePublicProduct, buildPublicCatalog };
+module.exports = { CATEGORY_LABELS, publicImage, normalizePublicProduct, buildPublicCatalog };

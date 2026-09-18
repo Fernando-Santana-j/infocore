@@ -35,7 +35,9 @@ test('landing page renders core conversion and SEO content', async () => {
   assert.doesNotMatch(html, /Upgrades e soluções|class="section products"/);
   assert.match(html, /class="process-journey"/);
   assert.doesNotMatch(html, /class="service-bento"|class="why-us"/);
-  assert.match(html, /Diagnosticar este PC/);
+  assert.match(html, /Diagnosticar este computador/);
+  assert.equal((html.match(/id="diag-action"/g) || []).length, 1);
+  assert.doesNotMatch(html, /id="diag-configure"|id="diag-cta"|class="psu"/);
   assert.match(html, /Um clique para descobrir/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /rel="icon" href="\/favicon\.ico" sizes="48x48 192x192"/);

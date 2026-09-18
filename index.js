@@ -181,13 +181,19 @@ app.get('/api/device-diagnostics/:token/script', (req, res) => {
     `$cpu = Get-CimInstance Win32_Processor | Select-Object -First 1\r\n` +
     `$system = Get-CimInstance Win32_ComputerSystem\r\n` +
     `$enclosure = Get-CimInstance Win32_SystemEnclosure | Select-Object -First 1\r\n` +
-    `$portableChassis = @(8, 9, 10, 11, 12, 14, 18, 21, 30, 31, 32)\r\n` +
-    `$chassisType = if ($enclosure.ChassisTypes) { [int]$enclosure.ChassisTypes[0] } else { 0 }\r\n` +
+    `$portableChassis = @(8, 9, 10, 11, 12, 14, 30, 31, 32)\r\n` +
+    `$chassisTypes = @($enclosure.ChassisTypes | ForEach-Object { [int]$_ })\r\n` +
+    `$battery = Get-CimInstance Win32_Battery -ErrorAction SilentlyContinue | Select-Object -First 1\r\n` +
+    `$identity = "$($system.Manufacturer) $($system.Model)"\r\n` +
+    `$modelLooksPortable = $identity -match '(?i)notebook|laptop|ultrabook|ideapad|thinkpad|vivobook|zenbook|aspire|nitro|latitude|inspiron|elitebook|probook|pavilion|victus|legion|surface'\r\n` +
+    `$portableChassisFound = @($chassisTypes | Where-Object { $portableChassis -contains $_ }).Count -gt 0\r\n` +
+    `$knownDesktop = $system.PCSystemType -eq 1 -or $system.PCSystemTypeEx -eq 1\r\n` +
+    `$isNotebook = $system.PCSystemType -eq 2 -or $system.PCSystemTypeEx -in @(2, 8) -or $portableChassisFound -or $modelLooksPortable -or (($null -ne $battery) -and -not $knownDesktop)\r\n` +
     `$os = Get-CimInstance Win32_OperatingSystem\r\n` +
     `$disks = @(Get-CimInstance Win32_DiskDrive | Select-Object -First 8 | ForEach-Object { @{ model = $_.Model; mediaType = $_.MediaType; sizeGb = [Math]::Round($_.Size / 1GB) } })\r\n` +
     `$gpus = @(Get-CimInstance Win32_VideoController | Select-Object -First 4 | ForEach-Object { $_.Name })\r\n` +
     `$temp = $null; try { $zone = Get-CimInstance MSAcpi_ThermalZoneTemperature -ErrorAction Stop | Select-Object -First 1; if ($zone.CurrentTemperature) { $temp = [Math]::Round(($zone.CurrentTemperature / 10) - 273.15) } } catch {}\r\n` +
-    `$payload = @{ deviceType = if ($system.PCSystemType -eq 2 -or $portableChassis -contains $chassisType) { 'notebook' } else { 'pc' }; manufacturer = $system.Manufacturer; model = $system.Model; cpu = $cpu.Name; cores = $cpu.NumberOfCores; logicalProcessors = $cpu.NumberOfLogicalProcessors; ramGb = [Math]::Round($system.TotalPhysicalMemory / 1GB); temperatureC = $temp; os = $os.Caption; disks = $disks; gpus = $gpus } | ConvertTo-Json -Depth 4\r\n` +
+    `$payload = @{ deviceType = if ($isNotebook) { 'notebook' } else { 'pc' }; manufacturer = $system.Manufacturer; model = $system.Model; cpu = $cpu.Name; cores = $cpu.NumberOfCores; logicalProcessors = $cpu.NumberOfLogicalProcessors; ramGb = [Math]::Round($system.TotalPhysicalMemory / 1GB); temperatureC = $temp; os = $os.Caption; disks = $disks; gpus = $gpus } | ConvertTo-Json -Depth 4\r\n` +
     `Invoke-RestMethod -Uri '${endpoint}' -Method Post -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($payload)) | Out-Null\r\n` +
     `Write-Host 'Diagnostico enviado. Volte ao navegador.' -ForegroundColor Green\r\n`;
   res.type('text/plain; charset=utf-8').set({ 'Content-Disposition': 'attachment; filename="infocore-diagnostico.ps1"', 'Cache-Control': 'no-store' }).send(script);

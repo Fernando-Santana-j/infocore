@@ -13,9 +13,10 @@ test('diagnostic cards never intersect and connectors terminate on components', 
   await page.locator('[data-consent="reject"]').click();
   const mobile = testInfo.project.name === 'mobile';
   if (mobile) await expect(page.locator('#device-stage')).toHaveClass(/is-phone/);
-  if (!mobile) await expect(page.locator('#device-stage')).not.toHaveClass(/is-notebook|is-phone/);
+  if (!mobile && notebook) await expect(page.locator('#device-stage')).toHaveClass(/is-notebook/);
+  if (!mobile && !notebook) await expect(page.locator('#device-stage')).not.toHaveClass(/is-notebook|is-phone/);
   if (!mobile) {
-    await page.locator('#diag-configure').click();
+    await page.locator('#diag-action').click();
     await expect(page.locator('#diagnostic-download')).toHaveAttribute('href', /launcher/);
     const url = await page.locator('#diagnostic-download').getAttribute('href');
     await page.request.post(url.replace('/launcher', ''), { data: {
@@ -24,10 +25,10 @@ test('diagnostic cards never intersect and connectors terminate on components', 
       disks: [{ model: 'Samsung SSD 990 PRO NVMe', sizeGb: 2000 }], manufacturer: notebook ? 'Lenovo' : 'System manufacturer', model: notebook ? 'IdeaPad Slim 3 15IAH8' : 'Custom workstation', deviceType: notebook ? 'notebook' : 'pc',
     } });
     await page.locator('#diagnostic-check-now').click();
-    await expect(page.locator('#diag-cta')).toContainText('Enviar diagnóstico');
+    await expect(page.locator('#diag-action')).toContainText('Enviar diagnóstico');
     if (notebook) await expect(page.locator('#diag-model')).toHaveText('Lenovo IdeaPad Slim 3 15IAH8');
     await expect(page.locator('#diagnostic-dialog')).toBeHidden();
-    expect(decodeURIComponent(await page.locator('#diag-cta').getAttribute('href'))).toContain('NVIDIA GeForce');
+    expect(decodeURIComponent(await page.locator('#diag-action').getAttribute('href'))).toContain('NVIDIA GeForce');
   }
   for (const width of [360, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 1000 });

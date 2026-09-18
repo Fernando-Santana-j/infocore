@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { buildPublicCatalog } = require('./product-catalog');
+const { buildPublicCatalog, publicImage } = require('./product-catalog');
 
 const DEFAULT_CACHE_FILE = path.join(__dirname, '..', '.cache', 'products.json');
 function createProductStore() {
@@ -14,7 +14,9 @@ function createProductStore() {
   try {
     if (!cacheFile) throw new Error('memory_cache');
     const stored = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
-    if (stored.available && Array.isArray(stored.products)) snapshot = stored;
+    if (stored.available && Array.isArray(stored.products)) {
+      snapshot = { ...stored, products: stored.products.map((product) => ({ ...product, image: publicImage(product.image) })) };
+    }
   } catch (_) { /* O cache será criado após a primeira leitura válida. */ }
 
   const getSnapshot = () => ({ ...snapshot, categories: snapshot.categories.map((category) => ({ ...category })), products: snapshot.products.map((product) => ({ ...product })) });

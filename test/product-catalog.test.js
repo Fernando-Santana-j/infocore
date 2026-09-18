@@ -16,8 +16,21 @@ test('public catalog removes services, inactive records and private inventory fi
   assert.equal('min' in catalog.products[0], false);
 });
 
-test('product images accept HTTPS and map local uploads to the safe media route', () => {
-  assert.equal(normalizePublicProduct({ id: '1', name: 'Mouse', image: '/uploads/mouse.png' }).image, '/catalog-media/mouse.png');
+test('product images accept HTTPS and map uploads to the public inventory media origin', () => {
+  assert.equal(normalizePublicProduct({ id: '1', name: 'Mouse', image: '/uploads/mouse.png' }).image, 'https://system.infocoretech.com.br/uploads/mouse.png');
   assert.equal(normalizePublicProduct({ id: '2', name: 'Teclado', image: 'https://cdn.example.com/keyboard.webp' }).image, 'https://cdn.example.com/keyboard.webp');
-  assert.equal(normalizePublicProduct({ id: '3', name: 'Cabo', image: 'javascript:alert(1)' }).image, '/catalog-media/javascript%3Aalert(1)');
+  assert.equal(normalizePublicProduct({ id: '3', name: 'Cabo', image: 'javascript:alert(1)' }).image, 'https://system.infocoretech.com.br/uploads/javascript%3Aalert(1)');
+});
+
+test('product images can use an explicitly configured media origin or the local safe route', () => {
+  const previous = process.env.PRODUCT_MEDIA_BASE_URL;
+  try {
+    process.env.PRODUCT_MEDIA_BASE_URL = 'https://media.example.com/';
+    assert.equal(normalizePublicProduct({ id: '1', name: 'Mouse', image: '/uploads/mouse.png' }).image, 'https://media.example.com/uploads/mouse.png');
+    process.env.PRODUCT_MEDIA_BASE_URL = 'local';
+    assert.equal(normalizePublicProduct({ id: '2', name: 'Mouse', image: '/uploads/mouse.png' }).image, '/catalog-media/mouse.png');
+  } finally {
+    if (previous === undefined) delete process.env.PRODUCT_MEDIA_BASE_URL;
+    else process.env.PRODUCT_MEDIA_BASE_URL = previous;
+  }
 });

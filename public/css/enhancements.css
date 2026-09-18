@@ -122,19 +122,6 @@
     left: 44px
 }
 
-.psu {
-    position: absolute;
-    right: 18px;
-    bottom: 15px;
-    width: 59px;
-    height: 44px;
-    border: 1px solid rgba(138, 164, 190, .2);
-    display: grid;
-    place-items: center;
-    font: 700 7px monospace;
-    color: #5f7388
-}
-
 .rear-fan,
 .front-fan {
     position: absolute;
@@ -329,17 +316,6 @@
     min-height: 42px;
     padding: 0 12px;
     font-size: .7rem
-}
-
-.diag-adjust {
-    padding: 8px;
-    border: 0;
-    background: none;
-    color: #8ecfe7;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    font-size: .68rem;
-    cursor: pointer
 }
 
 .diagnostic-disclaimer {
@@ -1123,16 +1099,6 @@
 .diagnostic-shell {
     border-color: rgba(92, 210, 250, .5);
     box-shadow: 0 24px 80px rgba(11, 151, 210, .16), inset 0 1px rgba(255, 255, 255, .08)
-}
-
-.diag-adjust {
-    font-weight: 800;
-    color: #fff;
-    background: linear-gradient(135deg, #16b9ee, #7057e8);
-    border-radius: 10px;
-    padding: 13px 14px;
-    text-decoration: none;
-    box-shadow: 0 10px 26px rgba(38, 167, 232, .24)
 }
 
 .notebook-device {

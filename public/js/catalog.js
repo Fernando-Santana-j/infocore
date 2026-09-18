@@ -35,8 +35,8 @@
     }
     function mediaMarkup(product) {
         const image = safeImage(product.image);
-        const fallback = `<div class="product-visual" aria-hidden="true"><span>${escapeHtml(product.emoji || '📦')}</span><i></i><i></i><i></i></div>`;
-        return image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" width="640" height="480" loading="lazy" decoding="async">${fallback}` : fallback;
+        const fallback = (hidden = false) => `<div class="product-visual" aria-hidden="true"${hidden ? ' hidden' : ''}><span>${escapeHtml(product.emoji || '📦')}</span><i></i><i></i><i></i></div>`;
+        return image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" width="640" height="480" loading="lazy" decoding="async">${fallback(true)}` : fallback();
     }
     function cardMarkup(product, index) {
         const stock = availability(product);
@@ -59,7 +59,11 @@
         const visible = filtered.slice(0, state.visible);
         grid.innerHTML = visible.map(cardMarkup).join('');
         grid.setAttribute('aria-busy', 'false');
-        grid.querySelectorAll('img').forEach((image) => image.addEventListener('error', () => image.remove(), { once: true }));
+        grid.querySelectorAll('.catalog-card-media>img').forEach((image) => image.addEventListener('error', () => {
+            const fallback = image.nextElementSibling;
+            if (fallback?.classList.contains('product-visual')) fallback.hidden = false;
+            image.remove();
+        }, { once: true }));
         grid.querySelectorAll('.catalog-card').forEach((card) => productObserver.observe(card));
         grid.querySelectorAll('.catalog-product-whatsapp').forEach((link) => link.addEventListener('click', () => {
             const product = state.products.find((item) => item.id === link.closest('.catalog-card')?.dataset.productId);

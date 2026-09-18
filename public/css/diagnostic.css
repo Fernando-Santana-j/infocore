@@ -145,15 +145,6 @@
   border-radius: 2px;
 }
 
-#device-stage .psu {
-  left: 14px;
-  right: auto;
-  bottom: 10px;
-  width: 110px;
-  height: 21px;
-  background: #182936;
-}
-
 #device-stage .notebook-device {
   display: block;
   width: 240px;
@@ -301,8 +292,7 @@
   gap: 12px;
 }
 
-#diagnostic .diag-actions .button,
-#diagnostic .diag-adjust {
+#diagnostic .diag-actions .button {
   min-height: 48px;
   padding: 12px 16px;
   white-space: normal;
